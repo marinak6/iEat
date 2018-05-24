@@ -1,11 +1,46 @@
-.App {
-  text-align: center;
-  padding-top: 100px;
+
+@import url("https://fonts.googleapis.com/css?family=Sunflower:300");
+
+.Background { 
+  background-color: #d1e595;
+
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.Header {
+  text-align: center;
+  padding-top: 30px;
+  background-color: #d1e595;
+  color:white;
+  font-size: 60px;
+  font-family: ‘Sunflower’, sans-serif;
+}
+
+#border{
+  width: 60%;
+  text-align: center;
+  border-style: solid;
+  border-width: 2px;
+  display: inline-block;
+  
+}
+
+.Button {
+  padding-top: 40px;
+  text-align: center;
+  color: green;
+  padding-bottom: 80px;
+  border-radius: 50%
+}
+
+#but{
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  border-style: none;
+  color: #d6d3cb;
+  background-color: #fcfccc;
+  box-shadow: 20px;
+  font-size: 20px;
 }
 
 .App-header {
@@ -13,6 +48,8 @@
   height: 150px;
   padding: 20px;
   color: white;
+  font-family: ‘Sunflower’, sans-serif;
+
 }
 
 .App-title {
@@ -23,6 +60,47 @@
   font-size: large;
 }
 
+.timeStamp { 
+  color: white; 
+  font-size: 12px;
+  padding-bottom: 60px;
+  text-align: center;
+  font-weight: 100;
+}
+
+form>button {
+  margin-top: 100%;
+}
+
+input[type=text], select, textarea{
+  width: 25%; 
+  padding: 12px; 
+  border: 1px solid #ccc; 
+  border-radius: 4px; 
+  margin-top: 10px; 
+  margin-bottom: 16px; 
+}
+
+.secondPage { 
+  background-color: #d1e595;
+  display: inline-block; 
+  text-align: center; 
+}
+
+.foodLabel { 
+	border-radius: 5px;
+    background-color: #d1e595;
+ }
+
+ .amountLabel { 
+	border-radius: 5px;
+    background-color: #d1e595;
+ }
+ 
+ .box{ 
+    display: inline-block;
+    text-align: center;
+ }
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
