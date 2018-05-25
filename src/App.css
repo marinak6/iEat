@@ -83,25 +83,32 @@ input[type=text], select, textarea{
 
 .secondPage { 
   background-color: #d1e595;
-  padding-top: 150px;
+  padding-top: 60px;
   text-align: center; 
 }
 
 .foodLabel { 
 	border-radius: 5px;
   background-color: #d1e595;
-   padding-top: 30px;
  }
 
  .amountLabel { 
 	border-radius: 5px;
-    background-color: #d1e595;
+  background-color: #d1e595;
+  padding-bottom: 50px;
+  padding-left: -50px;
  }
  
  .box{ 
     display: inline-block;
     text-align: center;
  }
+
+.title { 
+    font-size: 30px;
+    color: white; 
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

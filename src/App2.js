@@ -39,8 +39,9 @@ export default class App2 extends Component{
         return(
         <div className='secondPage'>
             <div className="box">
-            <h2>1. Enter Info</h2>
-            <div className="labels">
+            <div className="title">
+            <h2>1. Enter Info</h2></div>
+            <div className="labels1">
                 <div class="foodLabel">
                     <label for="food">Food Name: </label>
                     <input type="text" name="food"></input></div>
