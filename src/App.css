@@ -12,7 +12,6 @@
   background-color: #d1e595;
   color:white;
   font-size: 60px;
-  font-family: ‘Sunflower’, sans-serif;
 }
 
 #border{
@@ -21,6 +20,7 @@
   border-style: solid;
   border-width: 2px;
   display: inline-block;
+  font-family: 'Calibri';
   
 }
 
@@ -41,8 +41,12 @@
   background-color: #fcfccc;
   box-shadow: 20px;
   font-size: 20px;
+  font-family: 'Calibri';
 }
 
+#stamp{
+  font-family: 'Calibri';
+}
 .App-header {
   background-color: #222;
   height: 150px;

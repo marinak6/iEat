@@ -118,7 +118,7 @@ class App extends Component {
               </Button></Link>
             </ButtonToolbar>
             </div>
-          <div className="timeStamp"><h1>{this.state.today}</h1></div>
+          <div className="timeStamp"><h1 id = "stamp">{this.state.today}</h1></div>
           </div>
     );
   }
