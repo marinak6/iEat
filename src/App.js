@@ -4,6 +4,7 @@ import { ButtonToolbar } from "react-bootstrap"
 import { Button } from "react-bootstrap"
 import App2 from './App2.js';
 import {BrowserRouter, Route, Link} from 'react-router-dom'
+import headerpic from './header.png';
 
 class App extends Component {
   constructor(props){
@@ -109,7 +110,9 @@ class App extends Component {
     return (
       <div className='Background'>
           <div className="Header">
-            <h1 id="border">iEat</h1> </div>
+            <header>
+            <img src={headerpic} className = "header" alt = "headerpic" />
+            </header></div>
           <div className="Button">
             <ButtonToolbar>
               <Link to={"/Info"}>

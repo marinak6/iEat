@@ -44,6 +44,23 @@
   font-family: 'Calibri';
 }
 
+.header{
+  text-align: center; 
+  height: 190px;
+  width: auto;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+#but2 { 
+  height: 50px;
+  width: 65px;
+  color: #d6d3cb;
+  background-color: #fcfccc;
+  font-size: 15px;
+  font-family: 'Calibri';
+}
+
 #stamp{
   font-family: 'Calibri';
 }
@@ -67,9 +84,10 @@
 .timeStamp { 
   color: white; 
   font-size: 12px;
-  padding-bottom: 60px;
+  padding-bottom: 80px;
   text-align: center;
   font-weight: 100;
+
 }
 
 form>button {
