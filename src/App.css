@@ -83,13 +83,14 @@ input[type=text], select, textarea{
 
 .secondPage { 
   background-color: #d1e595;
-  display: inline-block; 
+  padding-top: 150px;
   text-align: center; 
 }
 
 .foodLabel { 
 	border-radius: 5px;
-    background-color: #d1e595;
+  background-color: #d1e595;
+   padding-top: 30px;
  }
 
  .amountLabel { 
