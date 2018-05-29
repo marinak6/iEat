@@ -10,8 +10,8 @@ export default class RouteC extends Component{
         return(
             <BrowserRouter>
                 <div>
-                <Redirect to='/Main' />    
-                <Route path = "/Main" component = {App}/>
+                <Redirect to='/iEat' />    
+                <Route path = "/iEat" component = {App}/>
                 <Route path = "/Info" component = {App2}/>
                 <Route path = "/Login" component = {Login}/>
                 {App}

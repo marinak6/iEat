@@ -3,18 +3,9 @@ import firebase from "./configs";
 import {ButtonToolbar, Button} from "react-bootstrap";
 import potato from './potato.png';
 import {BrowserRouter, Route, Link} from 'react-router-dom';
-
+import signUp from './signUp'
 
 export default class Login extends Component{
-    constructor(props){
-        super(props)
-        this.state = {
-            name: "",
-            amount: "",
-            foods: [],
-        }
-    }
-
     updateField(field, value){
         this.setState({
             ...this.state,
@@ -23,8 +14,7 @@ export default class Login extends Component{
     }
     render(){
         let newFood = {
-            n: this.state.name,
-            a: this.state.amount
+            
         };
 
         return(
@@ -39,7 +29,7 @@ export default class Login extends Component{
                     <label for="food" id="username">Username: </label>
                     <input 
                     type="text" name="food"
-                    value = {this.state.name}
+                    value = {this.props.username}
                     onChange = {e => this.updateField("name",e.target.value)}
                     >
                     </input></div>
@@ -47,8 +37,8 @@ export default class Login extends Component{
                     <label for="amount" id="password">Password: </label>
                     <input 
                     type="text" name="amount" 
-                    value = {this.state.amount}
-                    onChange = {e => this.updateField("amount",e.target.value)}
+                    value = {this.props.password}
+                    onChange = {e => this.updateField("password",e.target.value)}
                     >
                     </input></div>
              </div>
@@ -73,7 +63,7 @@ export default class Login extends Component{
                     <label for="food" id="username">Username: </label>
                     <input 
                     type="text" name="food"
-                    value = {this.state.name}
+                    value = {this.props.signUpUsername}
                     onChange = {e => this.updateField("name",e.target.value)}
                     >
                     </input></div>
@@ -81,16 +71,16 @@ export default class Login extends Component{
                     <label for="amount" id="password">Password: </label>
                     <input 
                     type="text" name="amount" 
-                    value = {this.state.amount}
+                    value = {this.props.signUpPassword}
                     onChange = {e => this.updateField("amount",e.target.value)}
                     >
                     </input></div>
              </div>
             <div className="Button2">
             <ButtonToolbar>
-                <Button id="but2" type = "submit" value = "Submit" onClick = {()=> this.addtoFirebase(newFood)}>
+                <Button disabled = {this.props.invalidSignUp} id="but2" type = "submit" value = "Submit" onClick = {()=> this.addtoFirebase(newFood)}>
                     {" "}
-                    Submit{" "}
+                    Sign Up{" "}
                 </Button>
             </ButtonToolbar>
             </div> 
