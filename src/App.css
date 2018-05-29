@@ -41,7 +41,6 @@
   height: 150px;
   width: 150px;
   border-radius: 50%;
-  border-style: none;
   color: #d6d3cb;
   background-color: #fcfccc;
   box-shadow: 20px;
@@ -78,7 +77,7 @@
 .potato { 
   position: absolute; 
   top: 30px;
-  left: 570px;
+  left: 500px;
   height: 130px;
   width: auto;
 }
@@ -129,6 +128,12 @@ input[type=text], select, textarea{
   text-align: center; 
 }
 
+.loginPage { 
+  background-color: #d1e595;
+  padding-top: 50px;
+  text-align: center; 
+}
+
 .foodLabel { 
 	border-radius: 5px;
   background-color: #d1e595;
@@ -159,11 +164,24 @@ input[type=text], select, textarea{
  }
 
  .box2{ 
-  display: inline-block;
+  display: inline-block; 
+  width: 34%; 
   border-style: solid; 
   border-color: white;
-  margin: 50px;
   border-radius: 15px;
+  vertical-align: top;
+  margin-right: 60px;
+  margin-left: 50px
+}
+
+.box3{ 
+  display: inline-block;
+  width: 34%;
+  border-style: solid; 
+  border-color: white;
+  border-radius: 15px;
+  margin-left: 60px;
+  margin-right: 50px;
 }
 
 .title { 
@@ -178,6 +196,10 @@ input[type=text], select, textarea{
   padding-top: 200px;
 }
 
+.bottomHeader2 { 
+  padding-top: 100px;
+}
+
 .login { 
   text-align: center;
   background-color: #d1e595;
@@ -187,13 +209,11 @@ input[type=text], select, textarea{
 .username { 
   width: 300px;
   background-color: #d1e595;
-
 }
 
 .password { 
   width: 300px;  
   background-color: #d1e595;
-
 }
 
 @keyframes App-logo-spin {
