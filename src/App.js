@@ -114,9 +114,10 @@ class App extends Component {
             <header>
             <img src={headerpic} className = "header" alt = "headerpic" />
             </header></div>
+            
           <div className="Button">
             <ButtonToolbar>
-              <Link to={"/Info"}>
+              <Link to={"/Login"}>
               <Button 
                id="but" bsStyle="success" bsSize="large">GET<br />STARTED
               </Button></Link>

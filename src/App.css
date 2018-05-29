@@ -75,6 +75,14 @@
   width: auto;
 }
 
+.potato { 
+  position: absolute; 
+  top: 30px;
+  left: 570px;
+  height: 130px;
+  width: auto;
+}
+
 #stamp{
   font-family: 'Calibri';
 }
@@ -150,6 +158,14 @@ input[type=text], select, textarea{
     border-radius: 15px;
  }
 
+ .box2{ 
+  display: inline-block;
+  border-style: solid; 
+  border-color: white;
+  margin: 50px;
+  border-radius: 15px;
+}
+
 .title { 
     padding-top: 30px;
     padding-bottom: 10px;
@@ -161,6 +177,25 @@ input[type=text], select, textarea{
 .bottomHeader { 
   padding-top: 200px;
 }
+
+.login { 
+  text-align: center;
+  background-color: #d1e595;
+
+}
+
+.username { 
+  width: 300px;
+  background-color: #d1e595;
+
+}
+
+.password { 
+  width: 300px;  
+  background-color: #d1e595;
+
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
