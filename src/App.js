@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
-import { ButtonToolbar } from "react-bootstrap"
-import { Button } from "react-bootstrap"
+import { ButtonToolbar } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import App2 from './App2.js';
-import {BrowserRouter, Route, Link} from 'react-router-dom'
+import {BrowserRouter, Route, Link} from 'react-router-dom';
 import headerpic from './header.png';
 
 class App extends Component {
@@ -106,6 +106,7 @@ class App extends Component {
       today: this.state.day + " "+this.state.mm + '/' + this.state.dd + '/' + this.state.yyyy+ " "+this.state.h+":"+this.state.m+" "+this.state.noon
     });
   }
+
   render() {
     return (
       <div className='Background'>
@@ -126,4 +127,5 @@ class App extends Component {
     );
   }
 }
+
 export default App;

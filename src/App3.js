@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import firebase from "./configs";
-import {ButtonToolbar, Button} from "react-bootstrap";
-import lime from './lime.png';
 
 
-export default class App2 extends Component{
+export default class App3 extends Component{
     constructor(props){
         super(props)
         this.state = {
