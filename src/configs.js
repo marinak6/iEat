@@ -1,5 +1,7 @@
-import * as firebase from "firebase"
-
+import * as firebase from 'firebase';
+import * as auth from './auth';
+    
+// initialize firebase
 let config = {
     apiKey: "AIzaSyCMmEFOtyY3-JHSYQ4N8a1teWBTb2fQTfw",
     authDomain: "ieat-8d93e.firebaseapp.com",
@@ -9,4 +11,11 @@ let config = {
     messagingSenderId: "7989055744"
 };
 
-export default firebase.initializeApp(config);
+if(!firebase.apps.length){
+    firebase.initializeApp(config);
+}
+//const auth = firebase.auth();
+export {
+    auth,
+    firebase
+}

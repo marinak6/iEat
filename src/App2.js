@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import firebase from "./configs";
+import {auth} from "./configs";
+import {firebase} from "./configs";
 import {ButtonToolbar, Button} from "react-bootstrap";
 import lime from './lime.png';
 import {BrowserRouter, Route, Link} from 'react-router-dom';

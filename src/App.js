@@ -5,11 +5,15 @@ import { Button } from "react-bootstrap";
 import App2 from './App2.js';
 import {BrowserRouter, Route, Link} from 'react-router-dom';
 import headerpic from './header.png';
-
+import {auth} from './configs'
 class App extends Component {
   constructor(props){
     super(props)
     this.state = {
+      // log in variables
+      email: "",
+      password: "",
+      // clock variables
       today: new Date(),
       dd: "",
       mm: "",
