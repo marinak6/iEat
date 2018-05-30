@@ -99,6 +99,7 @@ export default class Login extends Component{
                     Sign Up{" "}
                 </Button>
             </ButtonToolbar>
+       
             </div> 
             </div>
             <div className="bottomHeader2" />

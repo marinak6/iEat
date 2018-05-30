@@ -220,3 +220,8 @@ input[type=text], select, textarea{
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+/* 
+zipcode = request.form['zip']
+r = requests.get("website url ")
+json_object = r.json() */
