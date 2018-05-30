@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {auth} from "./configs";
-import {firebase} from "./configs";
+import firebase from "./configs";
 import {ButtonToolbar, Button} from "react-bootstrap";
 import lime from './lime.png';
 import {BrowserRouter, Route, Link} from 'react-router-dom';
@@ -17,22 +17,26 @@ export default class App2 extends Component{
         }
     }
 
-    componentWillMount(){
-        firebase.database().ref("/usersFood").on("value",snapshot => {
+    componentDidMount(){
+        console.log(firebase.auth().currentUser)
+        let userID = firebase.auth().currentUser.uid
+        console.log(userID);
+        firebase.database().ref("/users/"+userID).on("value",snapshot => {
             if(snapshot.val()){
                 this.setState({
                     ...this.state,
-                    foods: snapshot.val()
+                    foods: snapshot.val() 
                 });
             }
         });
     }
 
     addtoFirebase(obj){
+        let userID = firebase.auth().currentUser.uid
         if(obj.n!==""&&obj.a!==""){
             let curr = this.state.foods
             curr.push(obj)
-            firebase.database().ref("/usersFood").set(curr);
+            firebase.database().ref("/users/"+userID).set(curr);
         }
         console.log(this.state.foods)
     }

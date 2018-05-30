@@ -14,8 +14,6 @@ export default class RouteC extends Component{
                 <Redirect to='/iEat' />    
                 <Route path = "/iEat" component = {App}/>
                 <Route path = "/Info" component = {App2}/>
-                <Route path = "/SignUp" component = {signUp}/>
-                {App}
                 </div>
             </BrowserRouter>
         );

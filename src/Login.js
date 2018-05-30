@@ -14,9 +14,12 @@ export default class Login extends Component{
         });
     }
     render(){
-        let entry = {
-            
-        };
+        console.log(this.props)
+        const invalid = this.props.signUpPasswordOne !== this.props.signUpPasswordTwo || 
+        this.props.signUpEmail === '' ||
+        this.props.signUpPasswordOne === '' ||
+        this.props.signUpUsername === ''
+        console.log(invalid)
 
         return(
         <div className='loginPage'>
@@ -94,7 +97,8 @@ export default class Login extends Component{
              </div>
             <div className="Button2">
             <ButtonToolbar>
-                <Button disabled = {this.props.invalidSignUp} id="but2" type = "submit" value = "Submit" onClick = {()=> this.props.success()}>
+                <Button disabled = {invalid} id="but2" type = "submit" value = "Submit"
+                    onClick = {()=> this.props.success()}>
                     {" "}
                     Sign Up{" "}
                 </Button>

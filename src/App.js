@@ -3,9 +3,11 @@ import './App.css';
 import { ButtonToolbar } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import App2 from './App2.js';
-import {BrowserRouter, Route, Link} from 'react-router-dom';
+import {BrowserRouter, Route, Link, Redirect} from 'react-router-dom';
 import headerpic from './header.png';
-import {auth} from './configs'
+import {auth,provider} from './configs'
+import firebase from './configs'
+
 class App extends Component {
   constructor(props){
     super(props)
@@ -22,10 +24,12 @@ class App extends Component {
       day: "",
       noon: "",
       yyyy: "",
+      user: null
     };
   }
   componentWillMount(){
     this.setTime();
+    this.logout();
   }
   componentDidMount(){
     window.setInterval(function(){
@@ -111,7 +115,49 @@ class App extends Component {
     });
   }
 
+  login = () => {
+    firebase.auth().signInWithPopup(provider).then(function(result) {
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      var token = result.credential.accessToken;
+      // The signed-in user info.
+      var user = result.user;
+      // ...
+    }).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
+      // ...
+    });
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({
+          user: true
+        })
+      } else {
+        user: null
+      }
+    });
+  }
+
+  logout = () => {
+    firebase.auth().signOut().then(function() {
+      // Sign-out successful.
+    }).catch(function(error) {
+      // An error happened.
+    });
+    this.setState({
+      user: null
+    })
+  }
+
   render() {
+    if(this.state.user!== null){
+      return <Redirect to = '/Info'/>
+    }
     return (
       <div className='Background'>
           <div className="Header">
@@ -121,10 +167,14 @@ class App extends Component {
             
           <div className="Button">
             <ButtonToolbar>
-              <Link to={"/SignUp"}>
               <Button 
-               id="but" bsStyle="success" bsSize="large">GET<br />STARTED
-              </Button></Link>
+               id="but" bsStyle="success" bsSize="large"
+               onClick = {this.login} 
+               
+              >
+               GET<br />STARTED
+
+              </Button>
             </ButtonToolbar>
             </div>
           <div className="timeStamp"><h1 id = "stamp">{this.state.today}</h1></div>

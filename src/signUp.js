@@ -12,19 +12,41 @@ export default class signUp extends Component{
             email: '',
             passwordOne: '',
             passwordTwo: '',
+            isInvalid: false,
             error: null
-        }
+        };
     }
 
+    invalid=()=>{
+        if(
+            this.props.passwordOne !== this.state.passwordTwo || 
+            this.state.passwordOne === '' ||
+            this.state.email === '' ||
+            this.state.username === ''
+        ){
+            this.setState({
+                ...this.state,
+                isInvalid: true
+            })
+        }
+        else{
+            this.setState({
+                ...this.state,
+                isInvalid: false
+            })
+        }
+    }
     updateField=(field, value)=>{
+        console.log("I'm happening")
         this.setState({
             ...this.state,
             [field]:value
         });
     }
 
+    
     register=()=>{
-       console.log(this.state)
+       console.log("hello")
         auth.doCreateUserWithEmailAndPassword(this.state.email, this.state.passwordOne)
         .then(authUser => {
             this.setState(()=>({    // if success then clear input state
@@ -41,12 +63,6 @@ export default class signUp extends Component{
         });
     }
     render(){
-        let isInvalid = 
-            this.state.passwordOne !== this.state.passwordTwo || 
-            this.state.passwordOne === '' ||
-            this.state.email === '' ||
-            this.state.username === '';
-            
         return(
             <div className = "Sign up">
             <Login 
@@ -55,7 +71,7 @@ export default class signUp extends Component{
             signUpPasswordOne = {this.state.passwordOne}
             signUpPasswordTwo = {this.state.passwordTwo}
             signUpEmail = {this.state.email}
-            invalidSignUp = {this.isInvalid}
+            invalidSignUp = {this.state.isInvalid}
             success = {this.register}
             />
             </div>
