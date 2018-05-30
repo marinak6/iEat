@@ -37,6 +37,16 @@
   padding-bottom: 60px;
 }
 
+.Button3 {
+  padding-top: 20px;
+  text-align: center;
+  color: green;
+  border-radius: 50%;
+  padding-bottom: 60px;
+  display: inline-block;
+}
+
+
 #but{
   height: 150px;
   width: 150px;
@@ -58,6 +68,8 @@
   border-radius: 15px;
   ;
 }
+
+
 .header{
   text-align: center; 
   height: 190px;

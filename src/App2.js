@@ -77,11 +77,17 @@ export default class App2 extends Component{
                     >
                     </input></div>
              </div>
-            <div className="Button2">
+            <div className="Button3">
             <ButtonToolbar>
                 <Button id="but2" type = "submit" value = "Submit" onClick = {()=> this.addtoFirebase(newFood)}>
                     {" "}
-                    Submit{" "}
+                    Add{" "}
+                </Button>
+            </ButtonToolbar> 
+            <ButtonToolbar>
+                <Button id="but2" type = "submit" value = "Submit">
+                    {" "}
+                    Calculate{" "}
                 </Button>
             </ButtonToolbar>
             </div> 
