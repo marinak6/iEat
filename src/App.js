@@ -121,7 +121,7 @@ class App extends Component {
             
           <div className="Button">
             <ButtonToolbar>
-              <Link to={"/Login"}>
+              <Link to={"/SignUp"}>
               <Button 
                id="but" bsStyle="success" bsSize="large">GET<br />STARTED
               </Button></Link>

@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import firebase from "./configs";
 import {ButtonToolbar, Button} from "react-bootstrap";
 import potato from './potato.png';
+import apple from './apple.png';
 import {BrowserRouter, Route, Link} from 'react-router-dom';
-import signUp from './signUp'
+import signUp from './signUp.js'
 
 export default class Login extends Component{
     updateField(field, value){
@@ -13,18 +14,19 @@ export default class Login extends Component{
         });
     }
     render(){
-        let newFood = {
+        let entry = {
             
         };
 
         return(
-        <div className='secondPage'>
-            <div className="box">
+        <div className='loginPage'>
+            {console.log(this.props)}
+            <div className="box2">
             <div className = "imagess">
                 <img src={potato} className = "potato"/></div>
             <div className="title">
             <h2>Login:</h2></div>
-            <div className="labels1">
+            <div className="loginBox">
                 <div class="foodLabel">
                     <label for="food" id="username">Username: </label>
                     <input 
@@ -45,47 +47,61 @@ export default class Login extends Component{
             <div className="Button2">
             <ButtonToolbar>
                 <Link to = {"/Info"}>
-                <Button id="but2" type = "submit" value = "Submit" onClick = {()=> this.addtoFirebase(newFood)}>
-                    {" "}
-                    Submit{" "}
+                <Button id="but2" type = "submit" value = "Submit">Submit
                 </Button></Link>
          </ButtonToolbar>
             </div> 
-            </div>
-            <div className="bottomHeader" />
-            <div className="box">
-            <div className = "imagess">
-                <img src={potato} className = "potato"/></div>
+            </div><div className="box3">
+            {/* <div className = "imagess"> */}
+                {/* <img src={apple} className = "apple"/></div> */}
+
+            
             <div className="title">
-            <h2>Login:</h2></div>
-            <div className="labels1">
+            <h2>Sign Up:</h2></div>
+            <div className="signUpBox">
+                <div className="fooLabel">
+                    <label for="food" id="username">Email: </label>
+                    <input 
+                    type="text" name="food" 
+                    value = {this.props.signUpEmail}
+                    onChange = {e => this.props.updateSignUp("email",e.target.value)}
+                    >
+                    </input></div>
                 <div class="foodLabel">
                     <label for="food" id="username">Username: </label>
                     <input 
                     type="text" name="food"
                     value = {this.props.signUpUsername}
-                    onChange = {e => this.updateField("name",e.target.value)}
+                    onChange = {e => this.props.updateSignUp("username",e.target.value)}
+                    >
+                    </input></div>
+                <div className="foodLabel">
+                    <label for="food" id="password">Password: </label>
+                    <input 
+                    type="text" name="food" 
+                    value = {this.props.signUpPasswordOne}
+                    onChange = {e => this.props.updateSignUp("passwordOne",e.target.value)}
                     >
                     </input></div>
                 <div className="amountLabel">
-                    <label for="amount" id="password">Password: </label>
+                    <label for="amount" id="password">Re-Enter Password: </label>
                     <input 
                     type="text" name="amount" 
-                    value = {this.props.signUpPassword}
-                    onChange = {e => this.updateField("amount",e.target.value)}
+                    value = {this.props.signUpPasswordTwo}
+                    onChange = {e => this.props.updateSignUp("passwordTwo",e.target.value)}
                     >
                     </input></div>
              </div>
             <div className="Button2">
             <ButtonToolbar>
-                <Button disabled = {this.props.invalidSignUp} id="but2" type = "submit" value = "Submit" onClick = {()=> this.addtoFirebase(newFood)}>
+                <Button disabled = {this.props.invalidSignUp} id="but2" type = "submit" value = "Submit" onClick = {()=> this.props.success()}>
                     {" "}
                     Sign Up{" "}
                 </Button>
             </ButtonToolbar>
             </div> 
             </div>
-            <div className="bottomHeader" />
+            <div className="bottomHeader2" />
          </div>
     );
     }

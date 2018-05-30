@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import Login from './Login';
+import Login from './Login.js';
 import {auth} from './configs';
 
 export default class signUp extends Component{
@@ -16,21 +16,16 @@ export default class signUp extends Component{
         }
     }
 
-    updateField(field, value){
+    updateField=(field, value)=>{
         this.setState({
             ...this.state,
             [field]:value
         });
     }
 
-    register(){
-        const {
-            username,
-            email,
-            passwordOne,
-        } = this.state;
-
-        auth.doCreateUserWithEmailAndPassword(email, passwordOne)
+    register=()=>{
+       console.log(this.state)
+        auth.doCreateUserWithEmailAndPassword(this.state.email, this.state.passwordOne)
         .then(authUser => {
             this.setState(()=>({    // if success then clear input state
                 username: '',
@@ -46,28 +41,24 @@ export default class signUp extends Component{
         });
     }
     render(){
-        const{
-            username,
-            email,
-            passwordOne,
-            passwordTwo,
-            error,
-        } = this.state;
-
-        const isInvalid = 
-            passwordOne !== passwordTwo || 
-            passwordOne === '' ||
-            email === '' ||
-            username === '';
+        let isInvalid = 
+            this.state.passwordOne !== this.state.passwordTwo || 
+            this.state.passwordOne === '' ||
+            this.state.email === '' ||
+            this.state.username === '';
             
         return(
+            <div className = "Sign up">
             <Login 
-            updateSignUp = {(field,value)=>this.updateField(field,value)}
+            updateSignUp = {this.updateField}
             signUpUsername = {this.state.username}
-            signUpPassword = {this.state.password}
+            signUpPasswordOne = {this.state.passwordOne}
+            signUpPasswordTwo = {this.state.passwordTwo}
             signUpEmail = {this.state.email}
             invalidSignUp = {this.isInvalid}
+            success = {this.register}
             />
+            </div>
         )
     }
 }
