@@ -4,9 +4,7 @@ import firebase from "./configs";
 import {ButtonToolbar, Button} from "react-bootstrap";
 import lime from './lime.png';
 import {BrowserRouter, Route, Link} from 'react-router-dom';
-
-
-
+import App3 from './App3.js';
 export default class App2 extends Component{
     constructor(props){
         super(props)
@@ -14,31 +12,20 @@ export default class App2 extends Component{
             name: "",
             amount: "",
             foods: [],
+            passArray: null
         }
-    }
-
-    componentDidMount(){
-        console.log(firebase.auth().currentUser)
-        let userID = firebase.auth().currentUser.uid
-        console.log(userID);
-        firebase.database().ref("/users/"+userID).on("value",snapshot => {
-            if(snapshot.val()){
-                this.setState({
-                    ...this.state,
-                    foods: snapshot.val() 
-                });
-            }
-        });
     }
 
     addtoFirebase(obj){
         let userID = firebase.auth().currentUser.uid
-        if(obj.n!==""&&obj.a!==""){
-            let curr = this.state.foods
-            curr.push(obj)
-            firebase.database().ref("/users/"+userID).set(curr);
-        }
-        console.log(this.state.foods)
+        let newPostKey =firebase.database().ref("/users/"+userID).child('foods').push().key
+        let updates = {};
+        updates['/foods/'+newPostKey] = obj;
+        this.setState({
+            name: "",
+            amount: ""
+        })
+        return firebase.database().ref("/users/"+userID).update(updates)
     }
 
     updateField(field, value){
@@ -51,7 +38,7 @@ export default class App2 extends Component{
         let newFood = {
             n: this.state.name,
             a: this.state.amount
-        };
+        };    
         return(
         <div className='secondPage'>
             <div className="box">
@@ -83,13 +70,13 @@ export default class App2 extends Component{
                     {" "}
                     Add{" "}
                 </Button>
-            </ButtonToolbar> 
-            <ButtonToolbar>
-                <Button id="but2" type = "submit" value = "Submit">
+                <Link to={'/Summary'}>
+                <Button id="but3" type = "submit" value = "Submit"> 
                     {" "}
                     Calculate{" "}
                 </Button>
-            </ButtonToolbar>
+                </Link>
+            </ButtonToolbar> 
             </div> 
             </div>
             <div className="bottomHeader" />

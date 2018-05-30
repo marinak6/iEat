@@ -38,7 +38,6 @@
 }
 
 .Button3 {
-  padding-top: 20px;
   text-align: center;
   color: green;
   border-radius: 50%;
@@ -66,9 +65,21 @@
   font-size: 15px;
   font-family: 'Calibri';
   border-radius: 15px;
+  display:inline-block;
   ;
 }
 
+#but3 { 
+  height: 50px;
+  width: 80px;
+  color: #d6d3cb;
+  background-color: #fcfccc;
+  font-size: 15px;
+  font-family: 'Calibri';
+  border-radius: 15px;
+  display:inline-block;
+  margin-left: 10px;
+}
 
 .header{
   text-align: center; 
@@ -154,7 +165,7 @@ input[type=text], select, textarea{
  .amountLabel { 
 	border-radius: 5px;
   background-color: #d1e595;
-  padding-bottom: 50px;
+  padding-bottom: 40px;
   padding-left: -50px;
  }
  
