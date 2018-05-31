@@ -66,9 +66,12 @@
   font-family: 'Calibri';
   border-radius: 15px;
   display:inline-block;
+  margin-left: 15px;
   ;
 }
-
+#btntoolbar{
+  display:inline-block;
+}
 #but3 { 
   height: 50px;
   width: 80px;
@@ -160,6 +163,8 @@ input[type=text], select, textarea{
 .foodLabel { 
 	border-radius: 5px;
   background-color: #d1e595;
+  display: inline-block;
+  width: 400px;
  }
 
  .amountLabel { 
@@ -167,6 +172,10 @@ input[type=text], select, textarea{
   background-color: #d1e595;
   padding-bottom: 40px;
   padding-left: -50px;
+ }
+
+ .dropdown{
+   display: inline;
  }
  
 #foodID { 
