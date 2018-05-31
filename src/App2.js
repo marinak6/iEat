@@ -45,7 +45,7 @@ export default class App2 extends Component{
             <div className = "imagess">
                 <img src={lime} className = "lime"/></div>
             <div className="title">
-            <h2>Enter Info</h2></div>
+            <h2>Enter Info: </h2></div>
             <div className="labels1">
                 <div class="foodLabel">
                     <label for="food" id="foodID">Food Name: </label>
@@ -84,5 +84,4 @@ export default class App2 extends Component{
     );
     }
 }
-
 

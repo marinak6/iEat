@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import firebase from "./configs";
 import axios from "axios";
+import apple from './apple.png';
+import orange from './orange.png';
+import banana from './banana.png';
+import broccoli from './broccoli.png';
+
 
 export default class App3 extends Component{
     constructor(props){
@@ -85,10 +90,11 @@ console.log(this.state.nbd)
     
     render() { 
         let array = this.state.foods.map(entry => {
-            return <div>
-            <h1> Name: {entry.n}</h1>
-            <p> amount: {entry.a}</p>
-            </div>
+            return <div className = "space"><div className="array">
+            <h1>Food: {entry.n}</h1>
+            <p>Amount: {entry.a}</p>
+            </div></div>
+
         });
         /*
         let {foodName, foodGroup, calories, fat, protein} = this.state;
@@ -105,9 +111,16 @@ console.log(this.state.nbd)
 
         return(
             <div className='Background'>
-            <div className="title">
-                <h2>Diet Summary</h2></div>
-                {array}
+                <div className="summaryTitle">
+                    <h2>~ Diet Summary ~</h2></div>
+                <div className="decorations">
+                    <img src={orange} className = "orange"/>
+                    <img src={apple} className = "apple"/>
+                    <img src={banana} className = "banana"/>
+                    <img src={broccoli} className = "broccoli"/>
+                    </div>
+                <div>{array}</div>
+                <div className="bottomHeader"></div>
             </div>
         );
     }
