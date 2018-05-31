@@ -8,16 +8,17 @@ export default class App3 extends Component{
         this.state = {
             name: "",
             amount: "",
+            foodGroup: "",
+            calories: "", 
+            fat: "",
+            protein: "",
             foods: [],
-            foodName: [],
-            foodGroup: [],
-            calories: [], 
-            fat: [],
-            protein: [] 
+            nbd: []
         }
     }
     
     componentDidMount() {
+        // grabbing data from firebase // 
         let userID = "/users/"+firebase.auth().currentUser.uid+"/foods"
         firebase.database().ref(userID).on("value",snapshot => {
             if(snapshot.val()){
@@ -34,14 +35,34 @@ export default class App3 extends Component{
             }
         });
 
+        // grabbing nbdno //
         const apiKey = "xfDET5R7EqwtYYaPcIdwa2DkKpf1jRzGXGJRFhsl";
+        let nbdtemp = [];
+        this.state.foods.forEach(entry=>{
+            let nbdurl = "https://api.nal.usda.gov/ndb/search/?format=json&q="+entry.n+"&sort=n&max=25&offset=0&api_key="+apiKey
+            axios.get(nbdurl)
+            .then(response =>{
+                let narrowData = []
+                let results = response.data.list.item;
+                for(let i = 0; i < results.length; i++){
+                  if(results[i].name.length<entry.n.length+24){ // grabs the nbd number if the name is short 
+                      nbdtemp.push(results[i].nbdno)
+                      break;
+                  }  
+                }
+            })
+        })
+        this.setState({
+            nbd: nbdtemp
+        })
+        
         const ndbno = document.getElementById();
         const type = "b";
         const format = "json";
         const url = "https://api.nal.usda.gov/ndb/V2/reports/?ndbno=" + ndbno + "&type=" + type + "&format=" + format + "&api_key=" + apiKey;
-        $.get(url, function( data ) {
+       /* $.get(url, function( data ) {
             alert( "Data Loaded: " + JSON.stringify(data) );
-        });
+        });*/
 
         axios
         .get(url)
