@@ -18,49 +18,31 @@ export default class App3 extends Component{
             fat: "",
             protein: "",
             foods: [],
-            nbd: []
+            ndb: []
         }
     }
     
     componentDidMount() {
         // grabbing data from firebase // 
+        let entry = [];
         let userID = "/users/"+firebase.auth().currentUser.uid+"/foods"
         firebase.database().ref(userID).on("value",snapshot => {
             if(snapshot.val()){
-                let entry = [];
                 snapshot.forEach((child)=>{
                     let childData = child.val();
                     entry.push(childData);
                     console.log(childData);
                 });
-                this.setState({
-                    ...this.state,
-                    foods: entry
-                });
             }
+            this.setState({
+                ...this.state,
+                foods: entry
+            });
+            this.grabNdb();
         });
         console.log(this.state.foods)
         // grabbing nbdno //
-        const apiKey = "xfDET5R7EqwtYYaPcIdwa2DkKpf1jRzGXGJRFhsl";
-        let nbdtemp = [];
-        this.state.foods.forEach(entry=>{
-            let nbdurl = "https://api.nal.usda.gov/ndb/search/?format=json&q="+entry.n+"&sort=n&max=25&offset=0&api_key="+apiKey
-            console.log(nbdurl)
-            axios.get(nbdurl)
-            .then(response =>{
-                let narrowData = []
-                let results = response.data.list.item;
-                for(let i = 0; i < results.length; i++){
-                  if(results[i].name.length<entry.n.length+24){ // grabs the nbd number if the name is short 
-                      nbdtemp.push(results[i].nbdno)
-                      break;
-                  }  
-                }
-            })
-        })
-        this.setState({
-            nbd: nbdtemp
-        })
+        
         /*
         const ndbno = document.getElementById();
         const type = "b";
@@ -85,9 +67,35 @@ export default class App3 extends Component{
           console.log(err);
         });
 */
-console.log(this.state.nbd)
+console.log(this.state.ndb)
     }
     
+    grabNdb(){
+        const apiKey = "xfDET5R7EqwtYYaPcIdwa2DkKpf1jRzGXGJRFhsl";
+        let ndbtemp = [];
+        this.state.foods.forEach(entry=>{
+            let ndburl = "https://api.nal.usda.gov/ndb/search/?format=json&q="+entry.n+"&sort=n&max=25&offset=0&api_key="+apiKey
+            console.log(ndburl)
+            axios.get(ndburl)
+            .then(response =>{
+                let narrowData = []
+                let results = response.data.list.item;
+                for(let i = 0; i < results.length; i++){
+                  if(results[i].name.length<entry.n.length+50){ // grabs the nbd number if the name is short 
+                      console.log(results[i].ndbno)
+                        ndbtemp.push(results[i].ndbno)
+                        console.log(ndbtemp)
+                      break;
+                  }  
+                }
+                console.log(ndbtemp)
+                this.setState({
+                    ndb: ndbtemp
+                })
+                console.log(this.state.ndb)
+            })
+        })
+    }
     render() { 
         let array = this.state.foods.map(entry => {
             return <div className = "space"><div className="array">
