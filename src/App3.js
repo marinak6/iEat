@@ -34,12 +34,13 @@ export default class App3 extends Component{
                 });
             }
         });
-
+        console.log(this.state.foods)
         // grabbing nbdno //
         const apiKey = "xfDET5R7EqwtYYaPcIdwa2DkKpf1jRzGXGJRFhsl";
         let nbdtemp = [];
         this.state.foods.forEach(entry=>{
             let nbdurl = "https://api.nal.usda.gov/ndb/search/?format=json&q="+entry.n+"&sort=n&max=25&offset=0&api_key="+apiKey
+            console.log(nbdurl)
             axios.get(nbdurl)
             .then(response =>{
                 let narrowData = []
@@ -55,7 +56,7 @@ export default class App3 extends Component{
         this.setState({
             nbd: nbdtemp
         })
-        
+        /*
         const ndbno = document.getElementById();
         const type = "b";
         const format = "json";
@@ -63,7 +64,7 @@ export default class App3 extends Component{
        /* $.get(url, function( data ) {
             alert( "Data Loaded: " + JSON.stringify(data) );
         });*/
-
+/*
         axios
         .get(url)
         .then(response => {
@@ -78,6 +79,8 @@ export default class App3 extends Component{
         .catch(err => {
           console.log(err);
         });
+*/
+console.log(this.state.nbd)
     }
     
     render() { 
@@ -87,6 +90,7 @@ export default class App3 extends Component{
             <p> amount: {entry.a}</p>
             </div>
         });
+        /*
         let {foodName, foodGroup, calories, fat, protein} = this.state;
         let points = foodName.map(x => {
             return 
@@ -97,7 +101,7 @@ export default class App3 extends Component{
             <li>{" "}Fat:{x.fat}{" "}</li>    
             <li>{" "}Protein:{x.protein}{" "}</li> 
             </div>
-        });
+        });*/
 
         return(
             <div className='Background'>
