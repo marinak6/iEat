@@ -179,9 +179,11 @@ input[type=text], select, textarea{
  }
 
  .dropdown{
-   display: inline;
+   display: inline
  }
- 
+ .drop{
+   display: inline-block
+ }
 #foodID { 
   padding-right: 10px;
 }

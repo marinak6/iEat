@@ -3,7 +3,7 @@ import {auth} from "./configs";
 import firebase from "./configs";
 import {ButtonToolbar, Button, DropdownButton, MenuItem} from "react-bootstrap";
 import lime from './lime.png';
-import {BrowserRouter, Route, Link} from 'react-router-dom';
+import {BrowserRouter, Route, Link, Redirect} from 'react-router-dom';
 import App3 from './App3.js';
 import axios from "axios";
 export default class App2 extends Component{
@@ -12,24 +12,31 @@ export default class App2 extends Component{
         this.state = {
             name: "",
             foods: [],   // contains all the foods for the key word entered
-            showDropdown: false
+            showDropdown: false,
+            amount: "",
+            redirect: ""
         }
     }
 
     grabNdb(name){
         const apiKey = "xfDET5R7EqwtYYaPcIdwa2DkKpf1jRzGXGJRFhsl";
         let ndbtemp = [];
-            let ndburl = "https://api.nal.usda.gov/ndb/search/?format=json&q="+name+"&sort=n&max=25&offset=0&api_key="+apiKey
+            let ndburl = "https://api.nal.usda.gov/ndb/search/?format=json&q="+name+"&sort=n&max=2000&offset=0&api_key="+apiKey
             console.log(ndburl)
             axios.get(ndburl)
             .then(response =>{
                 let results = response.data.list.item;
-                for(let i = 0; i < results.length; i++){
-                    let entry = {
-                        ndb: results[i].ndbno,
-                        name: results[i].name
+                while(ndbtemp.length<40){
+                    for(let i = 0; i < results.length; i++){
+                        let temp = results[i].name
+                            if((temp.substr(0,temp.indexOf("UPC")).length<name.length+5)&&(temp.substr(0,temp.indexOf("GTIN")).length<name.length+5)){
+                                let entry = {
+                                    ndb: results[i].ndbno,
+                                    name: results[i].name
+                                }
+                                ndbtemp.push(entry)
+                            }
                     }
-                    ndbtemp.push(entry)
                 }
                 this.setState({
                     foods: ndbtemp,
@@ -43,14 +50,13 @@ export default class App2 extends Component{
         let e = document.getElementById("select").value;
         console.log(e)
         let obj = this.state.foods[e-1].ndb;
-        console.log(this.state.foods)
-        console.log(obj)
         let userID = firebase.auth().currentUser.uid
         let newPostKey =firebase.database().ref("/users/"+userID).child('foods').push().key
         let updates = {};
         updates['/foods/'+newPostKey] = obj;
         this.setState({
             name: "",
+            ndb: obj
         })
         return firebase.database().ref("/users/"+userID).update(updates)
     }
@@ -61,6 +67,7 @@ export default class App2 extends Component{
             [field]:value
         });
     }
+
     renderDropdown=(title,i)=>{
         return(
             <div className = "dropdown">
@@ -90,18 +97,59 @@ export default class App2 extends Component{
                     <option value="23">{this.state.foods[22].name}</option>
                     <option value="24">{this.state.foods[23].name}</option>
                     <option value="25">{this.state.foods[24].name}</option>
+                    <option value="26">{this.state.foods[25].name}</option>
+                    <option value="27">{this.state.foods[26].name}</option>
+                    <option value="28">{this.state.foods[27].name}</option>
+                    <option value="29">{this.state.foods[28].name}</option>
+                    <option value="30">{this.state.foods[29].name}</option>
+                    <option value="31">{this.state.foods[30].name}</option>
+                    <option value="32">{this.state.foods[31].name}</option>
+                    <option value="33">{this.state.foods[32].name}</option>
+                    <option value="34">{this.state.foods[33].name}</option>
+                    <option value="35">{this.state.foods[34].name}</option>
+                    <option value="36">{this.state.foods[35].name}</option>
+                    <option value="37">{this.state.foods[36].name}</option>
+                    <option value="38">{this.state.foods[37].name}</option>
+                    <option value="39">{this.state.foods[38].name}</option>
+                    <option value="40">{this.state.foods[39].name}</option>
                 </select>
             </div>
         );
     }
+    emptyDropdown=()=>{
+        return(
+        <div className = "drop">
+                <select id = "s">
+                    <option value="1">No items</option>
+                </select>
+            </div>
+        )
+    }
 
+    logout=()=>{
+        ()=>this.props.signOut();
+        this.setState({
+            redirect: true
+        })
+    }
     render(){
+        if(this.state.redirect){
+            return <Redirect to = '/iEat'/>
+          }
         let newFood = {
             n: this.state.name,
             a: this.state.amount
         };    
+        this.props
         return(
         <div className='secondPage'>
+            <ButtonToolbar>
+                <Button id = "signoutbut" onClick = {()=>this.props.signOut()}>
+                    {" "}
+                    Log Out
+                    {" "}
+                </Button>
+            </ButtonToolbar>
             <div className="box">
             <div className = "imagess">
                 <img src={lime} className = "lime"/></div>
@@ -126,6 +174,7 @@ export default class App2 extends Component{
                 <div className="amountLabel">
                     <label for="amount" id="amountID">Amount: </label>
                     {this.state.showDropdown&&this.renderDropdown()}
+                    {!this.state.showDropdown&&this.emptyDropdown()}
                     <ButtonToolbar id = "btntoolbar">
                         <Button id="but3" type = "submit" value = "Submit" onClick={()=>this.addtoFirebase()}> 
                             {" "}
