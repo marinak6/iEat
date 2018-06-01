@@ -139,7 +139,7 @@ export default class App2 extends Component{
             <h2>Enter Info: </h2></div>
             <div className="labels1">
                 <div class="foodLabel">
-                    <label for="food" id="foodID">Food Name: </label>
+                    <label for="food" id="foodID">Food: </label>
                     <input 
                     type="text" name="food"
                     value = {this.state.name}
@@ -154,9 +154,9 @@ export default class App2 extends Component{
                     </ButtonToolbar>
                     </div>
                 <div className="amountLabel">
-                    <label for="amount" id="amountID">Amount: </label>
-                    {this.state.showDropdown&&this.renderDropdown()}
-                    {!this.state.showDropdown&&this.emptyDropdown()}
+                    <label for="amount" id="amountID">Type: </label>
+                    <div className="showDrop">{this.state.showDropdown&&this.renderDropdown()}</div>
+                    <div className="emptyDrop">{!this.state.showDropdown&&this.emptyDropdown()}</div>
                     <ButtonToolbar id = "btntoolbar">
                         <Button id="but3" type = "submit" value = "Submit" onClick={()=>this.addtoFirebase()}> 
                             {" "}
@@ -171,8 +171,7 @@ export default class App2 extends Component{
                             Calculate{" "}
                         </Button>
                         </Link>
-                    </ButtonToolbar> 
-             </div>
+                    </ButtonToolbar></div>
             </div>
             <div className="bottomHeader" />
          </div>

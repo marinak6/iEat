@@ -122,12 +122,43 @@ export default class App3 extends Component{
         let totalProt=0; let totalFat=0; let totalSugar=0; let totalCarb=0; let totalFiber=0;
         for(let i = 0; i < this.state.protein.length; i++){
             console.log(parseFloat(this.state.protein[i]))
-            totalProt += parseFloat(this.state.protein[i]);
-            totalFat += parseFloat(this.state.fat[i]);
-            totalSugar += parseFloat(this.state.sugar[i]);
-            totalCarb += parseFloat(this.state.carb[i]);
-            totalFiber += parseFloat(this.state.fiber[i]);
-        }
+            if(typeof this.state.protein === 'string') {
+                totalProt += parseFloat(this.state.protein[i]);
+            }
+            else{
+                totalProt += this.state.protein[i]
+            }
+
+            if(typeof this.state.fat === 'string') {
+                totalFat += parseFloat(this.state.fat[i]);
+            }
+            else{ 
+                totalFat += this.state.fat[i]; 
+            }
+
+            if(typeof this.state.sugar === 'string') {
+                totalSugar += parseFloat(this.state.sugar[i]);
+            }
+            else { 
+                totalSugar += this.state.sugar[i]
+            }
+
+            if(typeof this.state.carb === 'string') {
+                totalCarb += parseFloat(this.state.carb[i]);
+            }
+            else { 
+                totalCarb += this.state.carb[i]
+            }
+
+            if(typeof this.state.fiber === 'string') {
+                totalFiber += parseFloat(this.state.fiber[i]);
+            }
+            else { 
+                totalFiber += this.state.fiber[i]; 
+            }
+        } 
+
+
         console.log(totalProt)
         let v = 
             <div className = "space">
@@ -141,7 +172,6 @@ export default class App3 extends Component{
         return v;
     }
     render() { 
-        
         let array = this.state.foods.map(entry => {
             return <div className = "space"><div className="array">
             <p>Food: {entry.name.includes(", UPC")&&entry.name.substring(0,(entry.name.indexOf(", UPC")))}
@@ -166,11 +196,11 @@ export default class App3 extends Component{
                     <img src={banana} className = "banana"/>
                     <img src={broccoli} className = "broccoli"/>
                     </div>
-                <div>{array}</div>
-                <div>{this.calculate()}</div>
-                <div className="bottomHeader"></div>
+                <div className="arraySpace">{array}</div>
+                <div className="calculatedTotal"><h4>Calculated Total:</h4>{this.calculate()}</div>
+                <div className="bottomHeader3"></div>
             </div>
         );
     }
 }
-        
+

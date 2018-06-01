@@ -72,6 +72,7 @@
 }
 #btntoolbar{
   display:inline-block;
+  padding-bottom: 30px;
 }
 #but3 { 
   height: 50px;
@@ -179,7 +180,8 @@ input[type=text], select, textarea{
  }
 
  .dropdown{
-   display: inline
+   width: 300px;
+   text-align: center;
  }
  .drop{
    display: inline-block
@@ -195,7 +197,7 @@ input[type=text], select, textarea{
  .box{ 
     display: inline-block;
     text-align: center;
-    border-style: solid; 
+    border-style: dashed; 
     border-color: white;
     margin: 50px;
     border-radius: 15px;
@@ -236,6 +238,10 @@ input[type=text], select, textarea{
 }
 
 .bottomHeader2 { 
+  padding-top: 100px;
+}
+
+.bottomHeader3 { 
   padding-top: 100px;
 }
 
@@ -335,10 +341,31 @@ input[type=text], select, textarea{
   padding-top: 40px;
 }
 
-.array: hover {
-	opacity: .5;
-}
 /* 
 zipcode = request.form['zip']
 r = requests.get("website url ")
 json_object = r.json() */
+
+.calculatedTotal { 
+  background-color: white; 
+  color: #FFB733;
+  width:  45%; 
+  text-align: center;
+  border-style: dashed;
+  margin: 0 auto; 
+  border-radius: 20px;
+  margin-top: 60px;
+}
+
+.h4 { 
+  padding-bottom: -10px;
+}
+
+.emptyDrop { 
+  display: inline-block;
+}
+
+.showDrop { 
+  display: inline-block;
+  width: 200px;
+}
