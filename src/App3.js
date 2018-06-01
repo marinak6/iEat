@@ -5,6 +5,7 @@ import apple from './apple.png';
 import orange from './orange.png';
 import banana from './banana.png';
 import broccoli from './broccoli.png';
+import {ButtonToolbar, Button, DropdownButton, MenuItem} from "react-bootstrap";
 
 
 export default class App3 extends Component{
@@ -22,27 +23,39 @@ export default class App3 extends Component{
     }
     
     componentDidMount() {
-        // grabbing data from firebase // 
-        let entry = [];
+      this.gettingNdb();
+    }
+
+    gettingNdb(){
         let userID = "/users/"+firebase.auth().currentUser.uid+"/foods"
         firebase.database().ref(userID).on("value",snapshot => {
+            let entry = [];
             if(snapshot.val()){
+               /* for(let i = 0; i <snapshot.val().length; i++){
+                    let childData = snapshot.val().child[i].val()
+                   let key = snapshot.val().child[i]
+                    console.log(key)
+                    console.log(childData)
+                    entry.push(childData);
+                }*/
                 snapshot.forEach((child)=>{
                     let childData = child.val();
-                    entry.push(childData);
-                    console.log(childData);
+                   let key = child.key;
+                    console.log(key)
+                    console.log(childData)
+                    entry.push({data: childData, id: key});
+                    console.log(entry);
                 });
             }
             this.setState({
                 ...this.state,
                 ndb: entry
             });
-            this.pullingData();
+            this.pullingData(entry);
         });
-        console.log(this.state.ndb)
     }
 
-    pullingData(){
+    pullingData(entry){
         //api call
         let prot = []
         let sug = []
@@ -51,9 +64,9 @@ export default class App3 extends Component{
         let fib = []
         let foodTemp = [];
         const apiKey = "xfDET5R7EqwtYYaPcIdwa2DkKpf1jRzGXGJRFhsl";
-        this.state.ndb.forEach((element)=>{
+        entry.forEach((element)=>{
             console.log(element)
-            let foodurl = "https://api.nal.usda.gov/ndb/reports/?ndbno="+element+"&type=f&format=json&api_key="+apiKey
+            let foodurl = "https://api.nal.usda.gov/ndb/reports/?ndbno="+element.data+"&type=f&format=json&api_key="+apiKey
             axios.get(foodurl)
             .then(response=>{
                 let results = response.data.report.food;
@@ -101,7 +114,8 @@ export default class App3 extends Component{
                     protein: proteintemp,
                     carbs: carbstemp,
                     fiber: fibertemp,
-                    sugar: sugartemp
+                    sugar: sugartemp,
+                    id: element.id
                 }
                 foodTemp.push(entry)
                 this.setState({
@@ -113,6 +127,7 @@ export default class App3 extends Component{
                     fiber: fib
                 })
                 console.log(this.state.foods)
+                this.calculate();
             });
         })
     }
@@ -160,7 +175,7 @@ export default class App3 extends Component{
 
 
         console.log(totalProt)
-        let v = 
+        let v =
             <div className = "space">
                 <p> Total Protein: {totalProt.toString()} </p>
                 <p> Total Fat: {totalFat.toString()} </p>
@@ -168,12 +183,23 @@ export default class App3 extends Component{
                 <p> Total Carbohydrates: {totalCarb.toString()} </p>
                 <p> Total Fiber: {totalFiber.toString()} </p>
             </div>
-
         return v;
+
+    }
+
+    delete = (entry)=>{
+        let userID = "/users/"+firebase.auth().currentUser.uid+"/foods"
+        firebase.database().ref(userID).child(entry.id).remove();
     }
     render() { 
         let array = this.state.foods.map(entry => {
             return <div className = "space"><div className="array">
+                <ButtonToolbar>
+                    <Button onClick = {()=>this.delete(entry)}>
+                        {" "}
+                        delete{" "}
+                    </Button>
+                </ButtonToolbar>
             <p>Food: {entry.name.includes(", UPC")&&entry.name.substring(0,(entry.name.indexOf(", UPC")))}
                 {!entry.name.includes(", UPC")&&entry.name}</p>
             <p>Food group: {entry.foodGroup}</p>

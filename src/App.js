@@ -24,17 +24,28 @@ class App extends Component {
       day: "",
       noon: "",
       yyyy: "",
-      user: null
+      user: false,
+      click: false
     };
   }
   componentWillMount(){
     this.setTime();
-    this.logout();
+    //this.logout();
   }
   componentDidMount(){
     window.setInterval(function(){
       this.setTime();
     }.bind(this),1000);
+    firebase.auth().onAuthStateChanged((user) => {
+      console.log(user)
+      if (user!==null) {
+        this.setState({
+          user: true
+        })
+      } else {
+        user: false
+      }
+    });
   }
 
   setTime(){
@@ -122,6 +133,7 @@ class App extends Component {
       // The signed-in user info.
       var user = result.user;
       // ...
+      return <Redirect to = '/Info'/>
     }).catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
@@ -132,15 +144,7 @@ class App extends Component {
       var credential = error.credential;
       // ...
     });
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({
-          user: true
-        })
-      } else {
-        user: null
-      }
-    });
+    console.log(this.state)
   }
 
   logout = () => {
@@ -154,8 +158,17 @@ class App extends Component {
     })
   }
 
+  buttonclick=()=>{
+    this.setState({
+      click: true
+    })
+    if(!this.state.user){
+      this.login()
+    }
+  }
   render() {
-    if(this.state.user!== null){
+    if(this.state.user&&this.state.click){
+      console.log("hey")
       return <Redirect to = '/Info'/>
     }
     return (
@@ -169,7 +182,7 @@ class App extends Component {
             <ButtonToolbar>
               <Button 
                id="but" bsStyle="success" bsSize="large"
-               onClick = {this.login} 
+               onClick = {this.buttonclick} 
                
               >
                GET<br />STARTED

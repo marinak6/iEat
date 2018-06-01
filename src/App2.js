@@ -3,7 +3,7 @@ import {auth} from "./configs";
 import firebase from "./configs";
 import {ButtonToolbar, Button, DropdownButton, MenuItem} from "react-bootstrap";
 import lime from './lime.png';
-import {BrowserRouter, Route, Link} from 'react-router-dom';
+import {BrowserRouter, Route, Link, Redirect} from 'react-router-dom';
 import App3 from './App3.js';
 import axios from "axios";
 export default class App2 extends Component{
@@ -13,30 +13,27 @@ export default class App2 extends Component{
             name: "",
             foods: [],   // contains all the foods for the key word entered
             showDropdown: false,
-            ndb: ""
+            ndb: "",
+            redirect: false
         }
     }
 
     grabNdb(name){
         const apiKey = "xfDET5R7EqwtYYaPcIdwa2DkKpf1jRzGXGJRFhsl";
         let ndbtemp = [];
-            let ndburl = "https://api.nal.usda.gov/ndb/search/?format=json&q="+name+"&sort=n&max=2000&offset=0&api_key="+apiKey
+            let ndburl = "https://api.nal.usda.gov/ndb/search/?format=json&q="+name+"&sort=n&max=100&offset=0&api_key="+apiKey
             console.log(ndburl)
             axios.get(ndburl)
             .then(response =>{
                 let results = response.data.list.item;
-                while(ndbtemp.length<40){
                     for(let i = 0; i < results.length; i++){
                         let temp = results[i].name
-                            if((temp.substr(0,temp.indexOf("UPC")).length<name.length+5)&&(temp.substr(0,temp.indexOf("GTIN")).length<name.length+5)){
                                 let entry = {
                                     ndb: results[i].ndbno,
                                     name: results[i].name
                                 }
-                                ndbtemp.push(entry)
-                            }
-                    }
-                }
+                         ndbtemp.push(entry)
+                     }
                 this.setState({
                     foods: ndbtemp,
                     showDropdown: true
@@ -125,13 +122,36 @@ export default class App2 extends Component{
             </div>
         )
     }
+
+    logout = () => {
+        console.log("what")
+        firebase.auth().signOut().then(function() {
+          // Sign-out successful.
+          return <Redirect to = '/iEat'/>
+        }).catch(function(error) {
+          // An error happened.
+        });
+        this.setState({
+            redirect: true
+        })
+      }
+
     render(){
         let newFood = {
             n: this.state.name,
             a: this.state.amount
         };    
+        if(this.state.redirect){
+            return <Redirect to = '/iEat'/>
+          }
         return(
         <div className='secondPage'>
+            <ButtonToolbar>
+                <Button onClick = {this.logout}>
+                    {" "}
+                    Log Out {" "}
+                </Button>
+            </ButtonToolbar>
             <div className="box">
             <div className = "imagess">
                 <img src={lime} className = "lime"/></div>
