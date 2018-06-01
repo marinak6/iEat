@@ -3,7 +3,7 @@ import {auth} from "./configs";
 import firebase from "./configs";
 import {ButtonToolbar, Button, DropdownButton, MenuItem} from "react-bootstrap";
 import lime from './lime.png';
-import {BrowserRouter, Route, Link, Redirect} from 'react-router-dom';
+import {BrowserRouter, Route, Link} from 'react-router-dom';
 import App3 from './App3.js';
 import axios from "axios";
 export default class App2 extends Component{
@@ -13,8 +13,7 @@ export default class App2 extends Component{
             name: "",
             foods: [],   // contains all the foods for the key word entered
             showDropdown: false,
-            amount: "",
-            redirect: ""
+            ndb: ""
         }
     }
 
@@ -116,6 +115,7 @@ export default class App2 extends Component{
             </div>
         );
     }
+
     emptyDropdown=()=>{
         return(
         <div className = "drop">
@@ -125,31 +125,13 @@ export default class App2 extends Component{
             </div>
         )
     }
-
-    logout=()=>{
-        ()=>this.props.signOut();
-        this.setState({
-            redirect: true
-        })
-    }
     render(){
-        if(this.state.redirect){
-            return <Redirect to = '/iEat'/>
-          }
         let newFood = {
             n: this.state.name,
             a: this.state.amount
         };    
-        this.props
         return(
         <div className='secondPage'>
-            <ButtonToolbar>
-                <Button id = "signoutbut" onClick = {()=>this.props.signOut()}>
-                    {" "}
-                    Log Out
-                    {" "}
-                </Button>
-            </ButtonToolbar>
             <div className="box">
             <div className = "imagess">
                 <img src={lime} className = "lime"/></div>

@@ -24,23 +24,12 @@ class App extends Component {
       day: "",
       noon: "",
       yyyy: "",
-      user: false,
-      redirect: false,
-      click: false
+      user: null
     };
   }
   componentWillMount(){
     this.setTime();
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({
-          user: true,
-          redirect: true
-        })
-      } else {
-        user: false
-      }
-    });
+    this.logout();
   }
   componentDidMount(){
     window.setInterval(function(){
@@ -146,11 +135,10 @@ class App extends Component {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({
-          user: true,
-          redirect: true,
+          user: true
         })
       } else {
-        user: false
+        user: null
       }
     });
   }
@@ -162,28 +150,14 @@ class App extends Component {
       // An error happened.
     });
     this.setState({
-      user: false,
-      redirect: false
+      user: null
     })
-  }
-
-  buttonClick=()=>{
-    this.setState({
-      click: true
-    })
-    if(!this.state.user){
-      this.login()
-    }
   }
 
   render() {
-    console.log(this.state)
-   if(this.state.redirect&&this.state.click){
-     return <App2 
-        signOut = {()=>this.logout()}
-     />
-    // return (<Redirect to = '/Info'/>)
-   }
+    if(this.state.user!== null){
+      return <Redirect to = '/Info'/>
+    }
     return (
       <div className='Background'>
           <div className="Header">
@@ -195,7 +169,7 @@ class App extends Component {
             <ButtonToolbar>
               <Button 
                id="but" bsStyle="success" bsSize="large"
-               onClick = {this.buttonClick()} 
+               onClick = {this.login} 
                
               >
                GET<br />STARTED
