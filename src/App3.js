@@ -120,10 +120,10 @@ export default class App3 extends Component{
                 foodTemp.push(entry)
                 this.setState({
                     foods: foodTemp,
-                    fat: fat,
                     protein: prot,
-                    sugar: sug,
+                    fat: fat,
                     carb: carb,
+                    sugar: sug,
                     fiber: fib
                 })
                 console.log(this.state)
@@ -139,33 +139,45 @@ export default class App3 extends Component{
             console.log(parseFloat(this.state.protein[i]))
             if(isNaN(this.state.protein[i])){
                 totalProt += 0;
+                var totalProt2 = totalProt.toFixed(2);
             }
             else{
                 totalProt += parseFloat(this.state.protein[i]);
+                var totalProt2 = totalProt.toFixed(2);
             }
             if(isNaN(this.state.fat[i])){
                 totalFat += 0;
+                var totalFat2 = totalFat.toFixed(2);
             }
             else{
                 totalFat += parseFloat(this.state.fat[i]);
-            }
-            if(isNaN(this.state.sugar[i])){
-                totalSugar += 0;
-            }
-            else{
-                totalSugar += parseFloat(this.state.sugar[i]);
+                var totalFat2 = totalFat.toFixed(2);
+
             }
             if(isNaN(this.state.carb[i])){
                 totalCarb += 0;
+                var totalCarb2 = totalCarb.toFixed(2);
             }
             else{
                 totalCarb += parseFloat(this.state.carb[i]);
+                var totalCarb2 = totalCarb.toFixed(2);
             }
+            if(isNaN(this.state.sugar[i])){
+                totalSugar += 0;
+                var totalSugar2 = totalSugar.toFixed(2);
+            }
+            else{
+                totalSugar += parseFloat(this.state.sugar[i]);
+                var totalSugar2 = totalSugar.toFixed(2);
+            }
+        
             if(isNaN(this.state.fiber[i])){
                 totalFiber += 0;
+                var totalFiber2 = totalFiber.toFixed(2);
             }
             else{
                 totalFiber += parseFloat(this.state.fiber[i]);
+                var totalFiber2 = totalFiber.toFixed(2);
             }
         } 
 
@@ -173,11 +185,11 @@ export default class App3 extends Component{
         console.log(totalProt)
         let v =
             <div className = "space">
-                <p> Total Protein: {totalProt} g </p>
-                <p> Total Fat: {totalFat} g </p>
-                <p> Total Sugar: {totalSugar} g </p>
-                <p> Total Carbohydrates: {totalCarb} g </p>
-                <p> Total Fiber: {totalFiber} g </p>
+                <p> Total Protein: {totalProt2} g </p>
+                <p> Total Fat: {totalFat2} g </p>
+                <p> Total Carbohydrates: {totalCarb2} g </p>
+                <p> Total Sugar: {totalSugar2} g </p>
+                <p> Total Fiber: {totalFiber2} g </p>
             </div>
         return v;
 
@@ -191,19 +203,19 @@ export default class App3 extends Component{
         let array = this.state.foods.map(entry => {
             return <div className = "space"><div className="array">
                 <ButtonToolbar>
-                    <Button onClick = {()=>this.delete(entry)}>
+                    <Button  id="but4" onClick = {()=>this.delete(entry)}>
                         {" "}
-                        delete{" "}
+                        x{" "}
                     </Button>
                 </ButtonToolbar>
-            <p>{entry.name.includes(", UPC")&&entry.name.substring(0,(entry.name.indexOf(", UPC")))}
-                {!entry.name.includes(", UPC")&&entry.name}</p>
-            <p>Food group: {entry.foodGroup}</p>
-            <p>Fat: {entry.fat}</p>
-            <p>Protein: {entry.protein}</p>
-            <p>Sugar: {entry.sugar}</p>
-            <p>Carbohydrates: {entry.carbs}</p>
-            <p>Fiber: {entry.fiber}</p>
+            <div className="nameTitle">
+            <p id="foodNameSpace">{entry.name.includes(", UPC")&&entry.name.substring(0,(entry.name.indexOf(", UPC")))}
+                {!entry.name.includes(", UPC")&&entry.name}</p></div>
+            <p id="red">Protein: {entry.protein}</p>
+            <p id="yellow">Fat: {entry.fat}</p>
+            <p id="orange">Carbohydrates: {entry.carbs}</p>
+            <p id="pink">Sugar: {entry.sugar}</p>
+            <p id="green">Fiber: {entry.fiber}</p>
             </div></div>
 
         });
@@ -219,7 +231,8 @@ export default class App3 extends Component{
                     <img src={broccoli} className = "broccoli"/>
                     </div>
                 <div className="arraySpace">{array}</div>
-                <div className="calculatedTotal"><h4>Calculated Total:</h4>{this.calculate()}</div>
+                <div className="calculatedTotal"><div className="calcualtedtotalHeader">Calculated Total:</div>
+                <div className="thisCalculatedTotal">{this.calculate()}</div></div>
                 <div className="bottomHeader3"></div>
             </div>
         );

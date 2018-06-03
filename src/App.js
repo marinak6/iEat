@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component} from 'react';
 import './App.css';
 import { ButtonToolbar } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import App2 from './App2.js';
 import {BrowserRouter, Route, Link, Redirect} from 'react-router-dom';
 import headerpic from './header.png';
-import {auth,provider} from './configs'
-import firebase from './configs'
+import {auth,provider} from './configs'; 
+import firebase from './configs'; 
+
 
 class App extends Component {
   constructor(props){
@@ -28,6 +29,8 @@ class App extends Component {
       click: false
     };
   }
+
+  
   componentWillMount(){
     this.setTime();
     //this.logout();
@@ -182,11 +185,8 @@ class App extends Component {
             <ButtonToolbar>
               <Button 
                id="but" bsStyle="success" bsSize="large"
-               onClick = {this.buttonclick} 
-               
-              >
+               onClick = {this.buttonclick}>
                GET<br />STARTED
-
               </Button>
             </ButtonToolbar>
             </div>
