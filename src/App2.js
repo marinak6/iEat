@@ -14,39 +14,50 @@ export default class App2 extends Component{
             foods: [],   // contains all the foods for the key word entered
             showDropdown: false,
             ndb: "",
-            redirect: false
+            redirect: false,
+            amount: "",
+            amtLabel: "",
+            showAmount: false,
+            added: false
         }
     }
-
+    componentDidMount(){
+        console.log(this.state)
+        if(this.state.added){
+            this.grabNbd(this.state.name);
+        }
+    }
     grabNdb(name){
-        console.log(name)
-        const apiKey = "xfDET5R7EqwtYYaPcIdwa2DkKpf1jRzGXGJRFhsl";
-        let ndbtemp = [];
-            let ndburl = "https://api.nal.usda.gov/ndb/search/?format=json&q="+name+"&sort=n&max=100&offset=0&api_key="+apiKey
-            console.log(ndburl)
-            axios.get(ndburl)
-            .then(response =>{
-                let results = response.data.list.item;
-                    for(let i = 0; i < results.length; i++){
-                        let temp = results[i].name
-                                let entry = {
-                                    ndb: results[i].ndbno,
-                                    name: results[i].name
-                                }
-                         ndbtemp.push(entry)
-                     }
-                this.setState({
-                    foods: ndbtemp,
-                    showDropdown: true
+        console.log(this.state)
+            console.log(name)
+            const apiKey = "RQkkzls5ItqfvHurh8gJglBESkqPBFsA0TEFDUU6";
+            let ndbtemp = [];
+                let ndburl = "https://api.nal.usda.gov/ndb/search/?format=json&q="+name+"&sort=n&max=25&offset=0&api_key="+apiKey
+                console.log(ndburl)
+                axios.get(ndburl)
+                .then(response =>{
+                    let results = response.data.list.item;
+                        for(let i = 0; i < results.length; i++){
+                            let temp = results[i].name
+                                    let entry = {
+                                        ndb: results[i].ndbno,
+                                        name: results[i].name
+                                    }
+                             ndbtemp.push(entry)
+                         }
+                    this.setState({
+                        foods: ndbtemp,
+                        showDropdown: true
+                    })
+                    console.log(this.state.foods)
                 })
-                console.log(this.state.foods)
-            })
+        
     }
 
     addtoFirebase(){
         let e = document.getElementById("select").value;
         console.log(e)
-        let obj = this.state.foods[e-1].ndb;
+        let obj = {nbd: this.state.foods[e-1].ndb, amount: this.state.amount};
         let userID = firebase.auth().currentUser.uid
         let newPostKey =firebase.database().ref("/users/"+userID).child('foods').push().key
         let updates = {};
@@ -65,13 +76,46 @@ export default class App2 extends Component{
         });
     }
 
+    amount=()=>{
+        this.setState({
+            showAmount: true
+        })
+    }
+    add=()=>{
+        this.setState({
+            added: true
+        })
+        console.log(this.state)
+        this.grabNdb(this.state.name);
+    }
+    getAmount=()=>{
+        let e = document.getElementById("select").value;
+        let obj = this.state.foods[e-1].ndb;
+        const apiKey = "RQkkzls5ItqfvHurh8gJglBESkqPBFsA0TEFDUU6";
+        let foodurl = "https://api.nal.usda.gov/ndb/reports/?ndbno="+obj+"&type=f&format=json&api_key="+apiKey
+        console.log(foodurl)
+        axios.get(foodurl)
+        .then(response=>{
+            let amtLabel = "";
+            let results= response.data.report.food.nutrients;
+            console.log(results)
+            for(let i = 0; i < results.length; i++){
+                if(results[i].nutrient_id===208||results[i].nutrient_id==="208"){
+                    amtLabel = results[i].measures[0].qty+" "+results[i].measures[0].label+" ("+results[i].measures[0].eqv+" "+results[i].measures[0].eunit+")";
+                }
+            }
+            this.setState({
+                amtLabel: amtLabel
+            })       
+        });
+    }
     renderDropdown=(title,i)=>{
         let arr = [];
         for(let i = 1; i < this.state.foods.length;i++){
             arr.push(<option key={i} value ={i}>{this.state.foods[i-1].name}</option>)
         }
         return(
-            <select id = "select">           
+            <select id = "select" name = "select">           
                 {arr}
             </select>
         );
@@ -102,10 +146,10 @@ export default class App2 extends Component{
         let newFood = {
             n: this.state.name,
             a: this.state.amount
-        };    
+        };   
         if(this.state.redirect){
             return <Redirect to = '/iEat'/>
-          }
+        }
         return(
         <div className='secondPage'>
             <ButtonToolbar id = "signout">
@@ -129,22 +173,37 @@ export default class App2 extends Component{
                     >
                     </input>
                     <ButtonToolbar id = "btntoolbar">
-                        <Button  id="but2" type = "submit" value = "Submit" onClick = {()=> this.grabNdb(newFood.n)}>
+                        <Button  id="but2" type = "submit" value = "Submit" onClick = {()=> this.grabNdb(this.state.name)}>
+                            {" "}
+                            Enter{" "}
+                        </Button>
+                    </ButtonToolbar>
+                    </div>
+                <div className="amountLabel">
+                    {this.state.showDropdown&&this.renderDropdown()}
+                    {!this.state.showDropdown&&this.emptyDropdown()}
+                    <ButtonToolbar id = "btntoolbar">
+                        <Button id="but2" type = "submit" value = "Submit" onClick = {()=>this.getAmount()}> 
                             {" "}
                             Add{" "}
                         </Button>
                     </ButtonToolbar>
                     </div>
-                <div className="amountLabel">
-                    <label for="amount" id="amountID">Type: </label>
-                    {this.state.showDropdown&&this.renderDropdown()}
-                    {!this.state.showDropdown&&this.emptyDropdown()}
-                    <ButtonToolbar id = "btntoolbar">
-                        <Button id="but2" type = "submit" value = "Submit" onClick={()=>this.addtoFirebase()}> 
-                            {" "}
-                            Select{" "}
-                        </Button>
-                    </ButtonToolbar> 
+                    <div>
+                        <label for="Amount" id="amountID">{this.state.amtLabel}</label>
+                        <input 
+                        type="text" name="food"
+                        value = {this.state.amount}
+                        onChange = {e => this.updateField("amount",e.target.value)}
+                        >
+                        </input>
+                        <label>Servings</label>
+                        <ButtonToolbar id = "btntoolbar">
+                            <Button id="but2" type = "submit" value = "Submit" onClick = {()=>this.addtoFirebase()}> 
+                                {" "}
+                                Enter{" "}
+                            </Button>
+                        </ButtonToolbar>
                     </div>
                     <ButtonToolbar id = "btntoolbar">
                         <Link to={'/Summary'}>
@@ -160,4 +219,6 @@ export default class App2 extends Component{
     );
     }
 }
+
+
 
