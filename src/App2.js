@@ -57,7 +57,7 @@ export default class App2 extends Component{
     addtoFirebase(){
         let e = document.getElementById("select").value;
         console.log(e)
-        let obj = {nbd: this.state.foods[e-1].ndb, amount: this.state.amount};
+        let obj = {ndb: this.state.foods[e-1].ndb, amount: this.state.amount};
         let userID = firebase.auth().currentUser.uid
         let newPostKey =firebase.database().ref("/users/"+userID).child('foods').push().key
         let updates = {};
