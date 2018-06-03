@@ -190,14 +190,15 @@ export default class App2 extends Component{
                     </ButtonToolbar>
                     </div>
                     <div>
-                        <label for="Amount" id="amountID">{this.state.amtLabel}</label>
+                        <div className = "servings">
+                        <label for="Amount" id="amountID">{this.state.amtLabel}</label></div>
                         <input 
-                        type="text" name="food"
+                        type="text" name="food" id ="servingsID"
                         value = {this.state.amount}
                         onChange = {e => this.updateField("amount",e.target.value)}
                         >
                         </input>
-                        <label>Servings</label>
+                        <label id='foodID'>  servings</label>
                         <ButtonToolbar id = "btntoolbar">
                             <Button id="but2" type = "submit" value = "Submit" onClick = {()=>this.addtoFirebase()}> 
                                 {" "}
@@ -205,7 +206,7 @@ export default class App2 extends Component{
                             </Button>
                         </ButtonToolbar>
                     </div>
-                    <ButtonToolbar id = "btntoolbar">
+                    <ButtonToolbar id = "btntoolbar2">
                         <Link to={'/Summary'}>
                         <Button id="but3" type = "submit" value = "Submit"> 
                             {" "}
