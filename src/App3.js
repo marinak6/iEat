@@ -86,24 +86,24 @@ export default class App3 extends Component{
                 }
                 for(let i = 0; i<nutr.length; i++){
                     if(nutr[i].name==="Protein"){
-                        proteintemp = nutr[i].value+nutr[i].unit
+                        proteintemp = nutr[i].value+" "+nutr[i].unit
                         prot.push(nutr[i].value);
                         console.log(prot)
                     }
                     if(nutr[i].nutrient_id===204||nutr[i].nutrient_id==="204"){
-                        fattemp = nutr[i].value+nutr[i].unit
+                        fattemp = nutr[i].value+" "+nutr[i].unit
                         fat.push(nutr[i].value);
                     }
                     if(nutr[i].nutrient_id===205||nutr[i].nutrient_id==="205"){
-                        carbstemp = nutr[i].value+nutr[i].unit
+                        carbstemp = nutr[i].value+" "+nutr[i].unit
                         carb.push(nutr[i].value);
                     }
                     if(nutr[i].nutrient_id===291||nutr[i].nutrient_id==="291"){
-                        fibertemp = nutr[i].value+nutr[i].unit
+                        fibertemp = nutr[i].value+" "+nutr[i].unit
                         fib.push(nutr[i].value);
                     }
                     if(nutr[i].nutrient_id===269||nutr[i].nutrient_id==="269"){
-                        sugartemp = nutr[i].value+nutr[i].unit
+                        sugartemp = nutr[i].value+" "+nutr[i].unit
                         sug.push(nutr[i].value);
                     }
                 }
@@ -126,7 +126,7 @@ export default class App3 extends Component{
                     carb: carb,
                     fiber: fib
                 })
-                console.log(this.state.foods)
+                console.log(this.state)
                 this.calculate();
             });
         })
@@ -137,39 +137,35 @@ export default class App3 extends Component{
         let totalProt=0; let totalFat=0; let totalSugar=0; let totalCarb=0; let totalFiber=0;
         for(let i = 0; i < this.state.protein.length; i++){
             console.log(parseFloat(this.state.protein[i]))
-            if(typeof this.state.protein === 'string') {
-                totalProt += parseFloat(this.state.protein[i]);
+            if(isNaN(this.state.protein[i])){
+                totalProt += 0;
             }
             else{
-                totalProt += this.state.protein[i]
+                totalProt += parseFloat(this.state.protein[i]);
             }
-
-            if(typeof this.state.fat === 'string') {
+            if(isNaN(this.state.fat[i])){
+                totalFat += 0;
+            }
+            else{
                 totalFat += parseFloat(this.state.fat[i]);
             }
-            else{ 
-                totalFat += this.state.fat[i]; 
+            if(isNaN(this.state.sugar[i])){
+                totalSugar += 0;
             }
-
-            if(typeof this.state.sugar === 'string') {
+            else{
                 totalSugar += parseFloat(this.state.sugar[i]);
             }
-            else { 
-                totalSugar += this.state.sugar[i]
+            if(isNaN(this.state.carb[i])){
+                totalCarb += 0;
             }
-
-            if(typeof this.state.carb === 'string') {
+            else{
                 totalCarb += parseFloat(this.state.carb[i]);
             }
-            else { 
-                totalCarb += this.state.carb[i]
+            if(isNaN(this.state.fiber[i])){
+                totalFiber += 0;
             }
-
-            if(typeof this.state.fiber === 'string') {
+            else{
                 totalFiber += parseFloat(this.state.fiber[i]);
-            }
-            else { 
-                totalFiber += this.state.fiber[i]; 
             }
         } 
 
@@ -177,11 +173,11 @@ export default class App3 extends Component{
         console.log(totalProt)
         let v =
             <div className = "space">
-                <p> Total Protein: {totalProt.toString()} </p>
-                <p> Total Fat: {totalFat.toString()} </p>
-                <p> Total Sugar: {totalSugar.toString()} </p>
-                <p> Total Carbohydrates: {totalCarb.toString()} </p>
-                <p> Total Fiber: {totalFiber.toString()} </p>
+                <p> Total Protein: {totalProt} g </p>
+                <p> Total Fat: {totalFat} g </p>
+                <p> Total Sugar: {totalSugar} g </p>
+                <p> Total Carbohydrates: {totalCarb} g </p>
+                <p> Total Fiber: {totalFiber} g </p>
             </div>
         return v;
 
@@ -200,7 +196,7 @@ export default class App3 extends Component{
                         delete{" "}
                     </Button>
                 </ButtonToolbar>
-            <p>Food: {entry.name.includes(", UPC")&&entry.name.substring(0,(entry.name.indexOf(", UPC")))}
+            <p>{entry.name.includes(", UPC")&&entry.name.substring(0,(entry.name.indexOf(", UPC")))}
                 {!entry.name.includes(", UPC")&&entry.name}</p>
             <p>Food group: {entry.foodGroup}</p>
             <p>Fat: {entry.fat}</p>

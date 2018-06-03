@@ -19,6 +19,7 @@ export default class App2 extends Component{
     }
 
     grabNdb(name){
+        console.log(name)
         const apiKey = "xfDET5R7EqwtYYaPcIdwa2DkKpf1jRzGXGJRFhsl";
         let ndbtemp = [];
             let ndburl = "https://api.nal.usda.gov/ndb/search/?format=json&q="+name+"&sort=n&max=100&offset=0&api_key="+apiKey
@@ -65,61 +66,22 @@ export default class App2 extends Component{
     }
 
     renderDropdown=(title,i)=>{
+        let arr = [];
+        for(let i = 1; i < this.state.foods.length;i++){
+            arr.push(<option key={i} value ={i}>{this.state.foods[i-1].name}</option>)
+        }
         return(
-            <div className = "dropdown">
-                <select id = "select">
-                    <option value="1">{this.state.foods[0].name}</option>
-                    <option value="2">{this.state.foods[1].name}</option>
-                    <option value="3">{this.state.foods[2].name}</option>
-                    <option value="4">{this.state.foods[3].name}</option>
-                    <option value="5">{this.state.foods[4].name}</option>
-                    <option value="6">{this.state.foods[5].name}</option>
-                    <option value="7">{this.state.foods[6].name}</option>
-                    <option value="8">{this.state.foods[7].name}</option>
-                    <option value="9">{this.state.foods[8].name}</option>
-                    <option value="10">{this.state.foods[9].name}</option>
-                    <option value="11">{this.state.foods[10].name}</option>
-                    <option value="12">{this.state.foods[11].name}</option>
-                    <option value="13">{this.state.foods[12].name}</option>
-                    <option value="14">{this.state.foods[13].name}</option>
-                    <option value="15">{this.state.foods[14].name}</option>
-                    <option value="16">{this.state.foods[15].name}</option>
-                    <option value="17">{this.state.foods[16].name}</option>
-                    <option value="18">{this.state.foods[17].name}</option>
-                    <option value="19">{this.state.foods[18].name}</option>
-                    <option value="20">{this.state.foods[19].name}</option>
-                    <option value="21">{this.state.foods[20].name}</option>
-                    <option value="22">{this.state.foods[21].name}</option>
-                    <option value="23">{this.state.foods[22].name}</option>
-                    <option value="24">{this.state.foods[23].name}</option>
-                    <option value="25">{this.state.foods[24].name}</option>
-                    <option value="26">{this.state.foods[25].name}</option>
-                    <option value="27">{this.state.foods[26].name}</option>
-                    <option value="28">{this.state.foods[27].name}</option>
-                    <option value="29">{this.state.foods[28].name}</option>
-                    <option value="30">{this.state.foods[29].name}</option>
-                    <option value="31">{this.state.foods[30].name}</option>
-                    <option value="32">{this.state.foods[31].name}</option>
-                    <option value="33">{this.state.foods[32].name}</option>
-                    <option value="34">{this.state.foods[33].name}</option>
-                    <option value="35">{this.state.foods[34].name}</option>
-                    <option value="36">{this.state.foods[35].name}</option>
-                    <option value="37">{this.state.foods[36].name}</option>
-                    <option value="38">{this.state.foods[37].name}</option>
-                    <option value="39">{this.state.foods[38].name}</option>
-                    <option value="40">{this.state.foods[39].name}</option>
-                </select>
-            </div>
+            <select id = "select">           
+                {arr}
+            </select>
         );
     }
 
     emptyDropdown=()=>{
         return(
-        <div className = "drop">
                 <select id = "s">
                     <option value="1">No items</option>
                 </select>
-            </div>
         )
     }
 
@@ -146,8 +108,8 @@ export default class App2 extends Component{
           }
         return(
         <div className='secondPage'>
-            <ButtonToolbar>
-                <Button onClick = {this.logout}>
+            <ButtonToolbar id = "signout">
+                <Button id = "outbut"onClick = {this.logout}>
                     {" "}
                     Log Out {" "}
                 </Button>
@@ -159,7 +121,7 @@ export default class App2 extends Component{
             <h2>Enter Info: </h2></div>
             <div className="labels1">
                 <div class="foodLabel">
-                    <label for="food" id="foodID">Food: </label>
+                    <label for="food" id="foodID">Food:</label>
                     <input 
                     type="text" name="food"
                     value = {this.state.name}
@@ -175,10 +137,10 @@ export default class App2 extends Component{
                     </div>
                 <div className="amountLabel">
                     <label for="amount" id="amountID">Type: </label>
-                    <div className="showDrop">{this.state.showDropdown&&this.renderDropdown()}</div>
-                    <div className="emptyDrop">{!this.state.showDropdown&&this.emptyDropdown()}</div>
+                    {this.state.showDropdown&&this.renderDropdown()}
+                    {!this.state.showDropdown&&this.emptyDropdown()}
                     <ButtonToolbar id = "btntoolbar">
-                        <Button id="but3" type = "submit" value = "Submit" onClick={()=>this.addtoFirebase()}> 
+                        <Button id="but2" type = "submit" value = "Submit" onClick={()=>this.addtoFirebase()}> 
                             {" "}
                             Select{" "}
                         </Button>
