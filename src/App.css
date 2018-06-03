@@ -73,7 +73,6 @@
 }
 #btntoolbar{
   display:inline-block;
-  padding-bottom: 30px;
 }
 #but3 { 
   height: 50px;
@@ -176,8 +175,8 @@ input[type=text], select, textarea{
  .amountLabel { 
 	border-radius: 5px;
   background-color: #d1e595;
-  padding-bottom: 20px;
-  padding-left: -50px;
+  padding-bottom: 5px;
+  padding-left: 40px;
   font-family: 'Calibri', san-serif;
  }
 .drop{
@@ -190,6 +189,8 @@ input[type=text], select, textarea{
 
 #foodID { 
   padding-right: 10px;
+  font-family: 'Calibri', san-serif;
+  padding-top: -30px;
 }
 
 #amountID { 
@@ -236,8 +237,6 @@ input[type=text], select, textarea{
 }
 
 .title { 
-    padding-top: 30px;
-    padding-bottom: 10px;
     width: 400px;
     font-size: 30px;
     color: white; 
@@ -245,7 +244,7 @@ input[type=text], select, textarea{
 }
 
 .bottomHeader { 
-  padding-top: 200px;
+  padding-top: 60px;
 }
 
 .bottomHeader2 { 
@@ -441,4 +440,19 @@ json_object = r.json() */
 
 #foodNameSpace { 
   padding-bottom: 10px;
+}
+
+#btntoolbar2 { 
+  padding-top: 30px;
+  padding-bottom: 40px;
+}
+
+.servings { 
+  padding-top: 20px;
+  padding-bottom: 10px;
+  font-family: 'Calibri', san-serif;
+}
+
+#servingsID { 
+  width: 30px;
 }
