@@ -32,7 +32,7 @@ export default class App2 extends Component{
             console.log(name)
             const apiKey = "RQkkzls5ItqfvHurh8gJglBESkqPBFsA0TEFDUU6";
             let ndbtemp = [];
-                let ndburl = "https://api.nal.usda.gov/ndb/search/?format=json&q="+name+"&sort=n&max=25&offset=0&api_key="+apiKey
+                let ndburl = "https://api.nal.usda.gov/ndb/search/?format=json&q="+name+"&sort=n&max=100&offset=0&api_key="+apiKey
                 console.log(ndburl)
                 axios.get(ndburl)
                 .then(response =>{
@@ -64,7 +64,8 @@ export default class App2 extends Component{
         updates['/foods/'+newPostKey] = obj;
         this.setState({
             name: "",
-            ndb: obj
+            ndb: obj,
+            amount: ""
         })
         return firebase.database().ref("/users/"+userID).update(updates)
     }
@@ -105,7 +106,7 @@ export default class App2 extends Component{
                 }
             }
             this.setState({
-                amtLabel: amtLabel
+                amtLabel: "Serving size: "+amtLabel
             })       
         });
     }
@@ -162,10 +163,10 @@ export default class App2 extends Component{
             <div className = "imagess">
                 <img src={lime} className = "lime"/></div>
             <div className="title">
-            <h2>Enter Info: </h2></div>
+            <h2>Enter Info </h2></div>
             <div className="labels1">
+            <label for="food" id="foodID">Food</label>
                 <div class="foodLabel">
-                    <label for="food" id="foodID">Food:</label>
                     <input 
                     type="text" name="food"
                     value = {this.state.name}
@@ -179,26 +180,31 @@ export default class App2 extends Component{
                         </Button>
                     </ButtonToolbar>
                     </div>
-                <div className="amountLabel">
+                <div className="foodLabel">
                     {this.state.showDropdown&&this.renderDropdown()}
                     {!this.state.showDropdown&&this.emptyDropdown()}
+                    <div class = "tooltip2">
                     <ButtonToolbar id = "btntoolbar">
-                        <Button id="but2" type = "submit" value = "Submit" onClick = {()=>this.getAmount()}> 
+                        <Button id="but5" type = "submit" value = "Submit" onClick = {()=>this.getAmount()}> 
                             {" "}
                             Add{" "}
                         </Button>
+                        <span class = "tooltiptext">Select an option and press "Add" before inputting amount</span>
                     </ButtonToolbar>
                     </div>
-                    <div>
-                        <div className = "servings">
-                        <label for="Amount" id="amountID">{this.state.amtLabel}</label></div>
+                    </div>
+                    <div className = "servings">
+                        <label id="foodID">Amount</label>
+                        <br></br>
                         <input 
                         type="text" name="food" id ="servingsID"
                         value = {this.state.amount}
                         onChange = {e => this.updateField("amount",e.target.value)}
                         >
                         </input>
-                        <label id='foodID'>  servings</label>
+                    <div class="tooltip">Servings
+                        <span class = "tooltiptext">{this.state.amtLabel}</span>
+                    </div>
                         <ButtonToolbar id = "btntoolbar">
                             <Button id="but2" type = "submit" value = "Submit" onClick = {()=>this.addtoFirebase()}> 
                                 {" "}

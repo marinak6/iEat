@@ -19,7 +19,8 @@ export default class App3 extends Component{
             carb: [],
             fiber: [],
             foods: [],
-            ndb: []
+            ndb: [],
+            count: 0
         }
     }
     
@@ -31,6 +32,7 @@ export default class App3 extends Component{
         let userID = "/users/"+firebase.auth().currentUser.uid+"/foods"
         firebase.database().ref(userID).on("value",snapshot => {
             let entry = [];
+            let count = 0;
             if(snapshot.val()){
                /* for(let i = 0; i <snapshot.val().length; i++){
                     let childData = snapshot.val().child[i].val()
@@ -51,8 +53,9 @@ export default class App3 extends Component{
             }
             this.setState({
                 ...this.state,
-                ndb: entry
+                ndb: entry,
             });
+            console.log(this.state.ndb.length)
             this.pullingData(entry);
         });
     }
@@ -145,6 +148,7 @@ export default class App3 extends Component{
                     }
                 }
                 let entry = {
+                    amount: element.amount,
                     name: results.name,
                     foodGroup: fgtemp,
                     calories: caloriestemp,
@@ -186,43 +190,80 @@ export default class App3 extends Component{
 
         console.log(totalProt)
         let v =
-            <div className = "space">
-                <p> Total Calories: {totalCalories} g </p>
-                <p> Total Protein: {totalProt} g </p>
-                <p> Total Fat: {totalFat} g </p>
-                <p> Total Carbohydrates: {totalCarb} g </p>
-                <p> Total Sugar: {totalSugar} g </p>
-                <p> Total Fiber: {totalFiber} g </p>
+            <div className = "arraySpace">
+                <p>Calories: {totalCalories.toFixed(2)} </p>
+                <p>Protein: {totalProt.toFixed(2)} g </p>
+                <p>Fat: {totalFat.toFixed(2)} g </p>
+                <p>Carbohydrates: {totalCarb.toFixed(2)} g </p>
+                <p>Sugar: {totalSugar.toFixed(2)} g </p>
+                <p>Fiber: {totalFiber.toFixed(2)} g </p>
             </div>
         return v;
 
     }
 
     delete = (entry)=>{
+        console.log(this.state.ndb.length);
         let userID = "/users/"+firebase.auth().currentUser.uid+"/foods"
         firebase.database().ref(userID).child(entry.id).remove();
+        if(this.state.ndb.length===1){
+            console.log("hello")
+            this.setState({
+                foods: [],
+                calories: 0,
+                protein: 0,
+                fat: 0,
+                carb: 0,
+                sugar: 0,
+                fiber: 0
+            })
+        }
     }
-    render() { 
-        let array = this.state.foods.map(entry => {
-            return <div className = "space"><div className="array">
-                <ButtonToolbar>
-                    <Button  id="but4" onClick = {()=>this.delete(entry)}>
-                        {" "}
-                        x{" "}
-                    </Button>
-                </ButtonToolbar>
-            <div className="nameTitle">
-            <p id="foodNameSpace">{entry.name.includes(", UPC")&&entry.name.substring(0,(entry.name.indexOf(", UPC")))}
-                {!entry.name.includes(", UPC")&&entry.name}</p></div>
-            <p id="red">Calories: {entry.calories}</p>
-            <p id="red">Protein: {entry.protein}</p>
-            <p id="yellow">Fat: {entry.fat}</p>
-            <p id="orange">Carbohydrates: {entry.carbs}</p>
-            <p id="pink">Sugar: {entry.sugar}</p>
-            <p id="green">Fiber: {entry.fiber}</p>
-            </div></div>
-
+    clearAll = ()=>{
+        let userID = "/users/"+firebase.auth().currentUser.uid+"/foods"
+        this.state.foods.forEach((entry)=>{
+            firebase.database().ref(userID).child(entry.id).remove();
         });
+        this.setState({
+            foods: [],
+            calories: 0,
+            protein: 0,
+            fat: 0,
+            carb: 0,
+            sugar: 0,
+            fiber: 0
+        })
+    }
+
+    render() { 
+        let array = [];
+        if(this.state.foods.length!==0){
+            console.log(this.state.foods)
+            array = this.state.foods.map(entry => {
+                return <div className = "space"><div className="array">
+                    <ButtonToolbar>
+                        <Button  id="but4" onClick = {()=>this.delete(entry)}>
+                            {" "}
+                            x{" "}
+                        </Button>
+                    </ButtonToolbar>
+                <div className="nameTitle">
+                <p id="foodNameSpace">{entry.name.includes(", UPC")&&entry.name.substring(0,(entry.name.indexOf(", UPC")))+" ("+entry.amount+")"}
+                    {!entry.name.includes(", UPC")&&entry.name+" ("+entry.amount+")"}</p></div>
+                <p id = "lit">Calories: {entry.calories.toFixed(2)} </p>
+                <p id = "lit">Protein: {entry.protein.toFixed(2)} g</p>
+                <p id = "lit">Fat: {entry.fat.toFixed(2)} g</p>
+                <p id = "lit">Carbohydrates: {entry.carbs.toFixed(2)} g</p>
+                <p id = "lit">Sugar: {entry.sugar.toFixed(2)} g</p>
+                <p id = "lit">Fiber: {entry.fiber.toFixed(2)} g</p>
+                </div></div>
+            });
+        }
+        else{
+            array = ()=>{
+                return <div></div>
+            }
+        }
 
         return(
             <div className='Background'>
@@ -234,10 +275,17 @@ export default class App3 extends Component{
                     <img src={banana} className = "banana"/>
                     <img src={broccoli} className = "broccoli"/>
                     </div>
-                <div className="arraySpace">{array}</div>
                 <div className="calculatedTotal"><div className="calcualtedtotalHeader">Calculated Total:</div>
                 <div className="thisCalculatedTotal">{this.calculate()}</div></div>
+                <div className="arraySpace">{this.state.foods!==0&&array}</div>
+                    <ButtonToolbar id = "clearAll">
+                        <Button id="but3" type = "submit" value = "Submit" onClick = {()=>this.clearAll()}> 
+                            {" "}
+                            Clear All{" "}
+                        </Button>
+                    </ButtonToolbar>
                 <div className="bottomHeader3"></div>
+
             </div>
         );
     }

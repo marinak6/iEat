@@ -1,16 +1,26 @@
 @import url('https://fonts.googleapis.com/css?family=Pacifico');
+@import url('https://fonts.googleapis.com/css?family=Handlee');
+@import url('https://fonts.googleapis.com/css?family=Boogaloo');
+@import url('https://fonts.googleapis.com/css?family=Boogaloo|Nanum+Gothic');
 
 .Background { 
-  background-color: #d1e595;
+  background-color: #d4ed9c;
 
 }
 
 .Header {
   text-align: center;
-  padding-top: 30px;
-  background-color: #d1e595;
+  padding-top: 50px;
+  padding-bottom: 20px;
+  background-color: #d4ed9c;
   color:white;
   font-size: 60px;
+}
+
+#pic{
+  width: 800px;
+  height: auto;
+
 }
 
 #border{
@@ -69,7 +79,18 @@
   display:inline-block;
   margin-left: 15px;
   border-color:#aabc69;
-  ;
+}
+#but5 { 
+  height: 50px;
+  width: 80px;
+  color: #d6d3cb;
+  background-color: #fcfccc;
+  font-size: 15px;
+  font-family: 'Calibri', san-serif;
+  border-radius: 15px;
+  display:inline-block;
+  margin-left:0px;
+  border-color:#aabc69;
 }
 #btntoolbar{
   display:inline-block;
@@ -81,10 +102,14 @@
   font-size: 15px;
   font-family: 'Calibri', san-serif;
   border-radius: 15px;
-  display:inline-block;
-  margin-left: 10px;
+  position: center;
   background-color: #9bd166;
   border-color: #5a8c44;
+}
+
+#clearAll{
+  padding-top: 75px;
+  padding-left: 600px;
 }
 
 .header{
@@ -152,7 +177,7 @@ input[type=text], select, textarea{
 }
 
 .secondPage { 
-  background-color: #d1e595;
+  background-color: #d4ed9c;
   padding-top: 60px;
   text-align: center; 
 }
@@ -165,18 +190,16 @@ input[type=text], select, textarea{
 
 .foodLabel { 
 	border-radius: 5px;
-  background-color: #d1e595;
-  padding-left: -50px;
+  background-color: #d8f2a2;
   font-family: 'Calibri', san-serif;
-  display: inline-block;
   width: 400px;
  }
 
  .amountLabel { 
 	border-radius: 5px;
-  background-color: #d1e595;
+  background-color: #d8f2a2;
   padding-bottom: 5px;
-  padding-left: 40px;
+  padding-left: 0px;
   font-family: 'Calibri', san-serif;
  }
 .drop{
@@ -189,8 +212,10 @@ input[type=text], select, textarea{
 
 #foodID { 
   padding-right: 10px;
-  font-family: 'Calibri', san-serif;
-  padding-top: -30px;
+  font-family: 'Handlee', cursive;
+  font-size: 18px;
+  padding-top:-30px;
+  font-weight: bolder;
 }
 
 #amountID { 
@@ -200,11 +225,13 @@ input[type=text], select, textarea{
 #s{
   width: 125px;
   height: 38px;
+  margin-left:0px;
 }
 
 #select{
   width: 125px;
   height: 38px;
+  margin-left:0px;
 }
  .box{ 
     display: inline-block;
@@ -213,6 +240,7 @@ input[type=text], select, textarea{
     border-color: white;
     margin: 50px;
     border-radius: 15px;
+    background-color: #d8f2a2;
  }
 
  .box2{ 
@@ -360,12 +388,16 @@ input[type=text], select, textarea{
   border-color: white;
   color: #FFB733;
   font-family: 'Calibri', san-serif;
-  background-color: white;
+  background-color:#e3ffaa;
   flex-wrap: wrap;
 }
 
 .space { 
-  padding-top: 20px;
+  padding-top: 25px;
+}
+
+.arraySpace{
+  padding-top:0px;
 }
 
 /* 
@@ -375,14 +407,13 @@ json_object = r.json() */
 
 .calculatedTotal { 
   background-color: white; 
-  color: #FFB733;
+  color: #77c16a;
   width:  45%; 
   text-align: center;
   border-style: dashed;
   margin: 0 auto; 
-  border-radius: 20px;
   margin-top: 60px;
-  margin-bottom: -50px;
+  margin-bottom: 20px;
 }
 
 .emptyDrop { 
@@ -396,8 +427,11 @@ json_object = r.json() */
 
 #but4 { 
   float: left;
-  border-radius: 50%;
-  background-color: #FFB733;
+  margin-left: 10px;
+  margin-top: 10px;
+  border-radius: 20%;
+  border-color: #54844e;
+  background-color: #76c46b;
   color: white;
 }
 
@@ -405,12 +439,13 @@ json_object = r.json() */
   font-size: 20px;
   font-weight: bold;
   padding-top: 15px;
-  color: #FFB733;
+  padding-bottom: -10px;
+  text-shadow: black;
+  color: #caf285;
   font-family: 'Calibri', san-serif;
 }
 
 .thisCalculatedTotal { 
-  padding-top: -30px;
   font-family: 'Calibri', san-serif;
 }
 
@@ -434,16 +469,23 @@ json_object = r.json() */
   color: green;
 }
 
+#lit{
+  color: black;
+}
 #orange { 
   color: rgb(252, 138, 31);
 }
 
 #foodNameSpace { 
+  font-family: 'Calibri';
+  font-weight: thin;
   padding-bottom: 10px;
+  color:#6fc680;
+  position: center;
 }
 
 #btntoolbar2 { 
-  padding-top: 30px;
+  padding-top: 10px;
   padding-bottom: 40px;
 }
 
@@ -455,4 +497,79 @@ json_object = r.json() */
 
 #servingsID { 
   width: 30px;
+}
+
+.tooltip{
+  position: relative;
+  margin-left: 14px;
+  display: inline-block;
+  font-weight: lighter;
+  border-bottom: black dotted;
+  border-bottom-width: thin;
+}
+
+.tooltip .tooltiptext{
+  visibility: hidden;
+  width: 120px;
+  text-align: center;
+  background-color: black;
+  color:white;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index:1;
+  bottom:100%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+.tooltip2{
+  position: relative;
+  margin-left: 14px;
+  display: inline-block;
+  font-weight: lighter;
+}
+
+.tooltip2 .tooltiptext{
+  visibility: hidden;
+  width: 120px;
+  text-align: center;
+  background-color: black;
+  color:white;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index:1;
+  bottom:100%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.tooltip2 .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black transparent transparent transparent;
+}
+
+.tooltip2:hover .tooltiptext {
+  visibility: visible;
 }

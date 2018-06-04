@@ -178,7 +178,7 @@ class App extends Component {
       <div className='Background'>
           <div className="Header">
             <header>
-            <img src={headerpic} className = "header" alt = "headerpic" />
+            <img id = "pic"src={headerpic} class = "header" alt = "headerpic" />
             </header></div>
             
           <div className="Button">
