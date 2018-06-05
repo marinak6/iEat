@@ -20,7 +20,8 @@ export default class App3 extends Component{
             fiber: [],
             foods: [],
             ndb: [],
-            count: 0
+            count: 0,
+            clear: false
         }
     }
     
@@ -33,30 +34,32 @@ export default class App3 extends Component{
         firebase.database().ref(userID).on("value",snapshot => {
             let entry = [];
             let count = 0;
-            if(snapshot.val()){
-               /* for(let i = 0; i <snapshot.val().length; i++){
-                    let childData = snapshot.val().child[i].val()
-                   let key = snapshot.val().child[i]
-                    console.log(key)
-                    console.log(childData)
-                    entry.push(childData);
-                }*/
-                snapshot.forEach((child)=>{
-                    let childndb = child.val().ndb;
-                    let childamount = child.val().amount;
-                    let key = child.key;
-                    console.log(key)
-                    console.log(childndb)
-                    entry.push({data: childndb, id: key, amount: childamount});
-                    console.log(entry);
-                });
+            if(!this.state.clear){
+                if(snapshot.val()){
+                    /* for(let i = 0; i <snapshot.val().length; i++){
+                         let childData = snapshot.val().child[i].val()
+                        let key = snapshot.val().child[i]
+                         console.log(key)
+                         console.log(childData)
+                         entry.push(childData);
+                     }*/
+                     snapshot.forEach((child)=>{
+                         let childndb = child.val().ndb;
+                         let childamount = child.val().amount;
+                         let key = child.key;
+                         console.log(key)
+                         console.log(childndb)
+                         entry.push({data: childndb, id: key, amount: childamount});
+                         console.log(entry);
+                     });
+                 }
+                 this.setState({
+                     ...this.state,
+                     ndb: entry,
+                 });
+                 console.log(this.state.ndb.length)
+                 this.pullingData(entry);
             }
-            this.setState({
-                ...this.state,
-                ndb: entry,
-            });
-            console.log(this.state.ndb.length)
-            this.pullingData(entry);
         });
     }
 
@@ -78,13 +81,13 @@ export default class App3 extends Component{
                 let results = response.data.report.food;
                 let nutr = results.nutrients
                 // variables to print for food information //
-                let caloriestemp = "0 kcal"
-                let proteintemp = "0 g"
-                let fattemp = "0 g"
-                let carbstemp = "0 g"
-                let fibertemp = "0 g"
-                let sugartemp = "0 g"
-                let fgtemp = "N/A"
+                let caloriestemp = "No information"
+                let proteintemp = "No information"
+                let fattemp = "No information"
+                let carbstemp = "No information"
+                let fibertemp = "No information"
+                let sugartemp = "No information"
+                let fgtemp = "No information"
 
                 // variables to calculate total nutrition//
 
@@ -99,7 +102,6 @@ export default class App3 extends Component{
                         else{
                             caloriestemp = parseFloat((parseFloat(nutr[i].measures[0].value)*element.amount).toFixed(2));
                         }
-                        calories.push(caloriestemp);
                     }
                     if(nutr[i].name==="Protein"){
                         if(isNaN(nutr[i].value)){
@@ -108,7 +110,6 @@ export default class App3 extends Component{
                         else{
                             proteintemp = parseFloat((parseFloat(nutr[i].value)*element.amount).toFixed(2));
                         }
-                        prot.push(proteintemp);
                     }
                     if(nutr[i].nutrient_id===204||nutr[i].nutrient_id==="204"){
                         if(isNaN(nutr[i].value)){
@@ -117,7 +118,6 @@ export default class App3 extends Component{
                         else{
                             fattemp = parseFloat((parseFloat(nutr[i].value)*element.amount).toFixed(2));
                         }
-                        fat.push(fattemp);
                     }
                     if(nutr[i].nutrient_id===205||nutr[i].nutrient_id==="205"){
                         if(isNaN(nutr[i].value)){
@@ -126,7 +126,6 @@ export default class App3 extends Component{
                         else{
                             carbstemp = parseFloat((parseFloat(nutr[i].value)*element.amount).toFixed(2));
                         }
-                        carb.push(carbstemp);
                     }
                     if(nutr[i].nutrient_id===291||nutr[i].nutrient_id==="291"){
                         if(isNaN(nutr[i].value)){
@@ -135,7 +134,6 @@ export default class App3 extends Component{
                         else{
                             fibertemp = parseFloat((parseFloat(nutr[i].value)*element.amount).toFixed(2));
                         }
-                        fib.push(fibertemp);
                     }
                     if(nutr[i].nutrient_id===269||nutr[i].nutrient_id==="269"){
                         if(isNaN(nutr[i].value)){
@@ -144,9 +142,14 @@ export default class App3 extends Component{
                         else{
                             sugartemp = parseFloat((parseFloat(nutr[i].value)*element.amount).toFixed(2));
                         }
-                        sug.push(sugartemp);
                     }
                 }
+                calories.push(caloriestemp);
+                prot.push(proteintemp);
+                fat.push(fattemp);
+                carb.push(carbstemp);
+                fib.push(fibertemp);
+                sug.push(sugartemp);
                 let entry = {
                     amount: element.amount,
                     name: results.name,
@@ -179,12 +182,44 @@ export default class App3 extends Component{
         console.log(this.state)
         let totalCalories = 0; let totalProt=0; let totalFat=0; let totalSugar=0; let totalCarb=0; let totalFiber=0;
         for(let i = 0; i < this.state.protein.length; i++){
-            totalCalories+=this.state.calories[i];
-            totalProt+=this.state.protein[i];
-            totalFat+=this.state.fat[i];
-            totalSugar+=this.state.sugar[i];
-            totalCarb+=this.state.carb[i];
-            totalFiber+=this.state.fiber[i];
+            console.log(this.state)
+            if(this.state.calories[i]==="No information"){
+                console.log("hi")
+                totalCalories+=0
+            }
+            else{
+                totalCalories+=this.state.calories[i];
+            }
+            if(this.state.protein[i]==="No information"){
+                totalProt+=0
+            }
+            else{
+                totalProt+=this.state.protein[i];
+            }
+            if(this.state.fat[i]==="No information"){
+                totalFat+=0
+            }
+            else{
+                totalFat+=this.state.fat[i];
+            }
+            if(this.state.sugar[i]==="No information"){
+                totalSugar+=0
+            }
+            else{
+                totalSugar+=this.state.sugar[i];
+            }
+            if(this.state.carb[i]==="No information"){
+                totalCarb+=0
+            }
+            else{
+                totalCarb+=this.state.carb[i];
+            }
+            if(this.state.fiber[i]==="No information"){
+                totalFiber+=0
+            }
+            else{
+                totalFiber+=this.state.fiber[i];
+            }
         } 
 
 
@@ -231,7 +266,8 @@ export default class App3 extends Component{
             fat: 0,
             carb: 0,
             sugar: 0,
-            fiber: 0
+            fiber: 0,
+            clear: true
         });
         console.log(this.state)
     }
@@ -241,6 +277,7 @@ export default class App3 extends Component{
         if(this.state.foods.length!==0){
             console.log(this.state.foods)
             array = this.state.foods.map(entry => {
+                console.log(entry)
                 return <div className = "space"><div className="array">
                     <ButtonToolbar>
                         <Button  id="but4" onClick = {()=>this.delete(entry)}>
@@ -251,12 +288,12 @@ export default class App3 extends Component{
                 <div className="nameTitle">
                 <p id="foodNameSpace">{entry.name.includes(", UPC")&&entry.name.substring(0,(entry.name.indexOf(", UPC")))+" ("+entry.amount+")"}
                     {!entry.name.includes(", UPC")&&entry.name+" ("+entry.amount+")"}</p></div>
-                <p id = "lit">Calories: {entry.calories.toFixed(2)} </p>
-                <p id = "lit">Protein: {entry.protein.toFixed(2)} g</p>
-                <p id = "lit">Fat: {entry.fat.toFixed(2)} g</p>
-                <p id = "lit">Carbohydrates: {entry.carbs.toFixed(2)} g</p>
-                <p id = "lit">Sugar: {entry.sugar.toFixed(2)} g</p>
-                <p id = "lit">Fiber: {entry.fiber.toFixed(2)} g</p>
+                <p id = "lit">Calories: {!isNaN(entry.calories)&&entry.calories.toFixed(2)+" g"}{isNaN(entry.calories)&&entry.calories}</p>
+                <p id = "lit">Protein: {!isNaN(entry.protein)&&entry.protein.toFixed(2)+" g"}{isNaN(entry.protein)&&entry.protein}</p>
+                <p id = "lit">Fat: {!isNaN(entry.fat)&&entry.fat.toFixed(2)+" g"}{isNaN(entry.fat)&&entry.fat}</p>
+                <p id = "lit">Carbohydrates: {!isNaN(entry.carbs)&&entry.carbs.toFixed(2)+" g"}{isNaN(entry.carbs)&&entry.carbs}</p>
+                <p id = "lit">Sugar: {!isNaN(entry.sugar)&&entry.sugar.toFixed(2)+ " g"}{isNaN(entry.sugar)&&entry.sugar}</p>
+                <p id = "lit">Fiber: {!isNaN(entry.fiber)&&entry.fiber.toFixed(2)+" g"}{isNaN(entry.fiber)&&entry.fiber}</p>
                 </div></div>
             });
         }

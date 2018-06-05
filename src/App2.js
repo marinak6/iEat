@@ -248,7 +248,7 @@ export default class App2 extends Component{
                         <Link to={'/Summary'}>
                         <Button id="but3" type = "submit" value = "Submit"> 
                             {" "}
-                            Calculate{" "}
+                            View Summary{" "}
                         </Button>
                         </Link>
                     </ButtonToolbar></div>
