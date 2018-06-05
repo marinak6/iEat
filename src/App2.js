@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {auth} from "./configs";
 import firebase from "./configs";
-import {ButtonToolbar, Button, DropdownButton, MenuItem} from "react-bootstrap";
+import {ButtonToolbar, Button, DropdownButton, MenuItem, Alert} from "react-bootstrap";
 import lime from './lime.png';
 import {BrowserRouter, Route, Link, Redirect} from 'react-router-dom';
 import App3 from './App3.js';
@@ -18,7 +18,9 @@ export default class App2 extends Component{
             amount: "",
             amtLabel: "",
             showAmount: false,
-            added: false
+            added: false,
+            alertndb: false,
+            alertamt: false
         }
     }
     componentDidMount(){
@@ -36,7 +38,8 @@ export default class App2 extends Component{
                 console.log(ndburl)
                 axios.get(ndburl)
                 .then(response =>{
-                    let results = response.data.list.item;
+                    if(typeof response.data.list!== 'undefined'){
+                        let results = response.data.list.item;
                         for(let i = 0; i < results.length; i++){
                             let temp = results[i].name
                                     let entry = {
@@ -50,24 +53,37 @@ export default class App2 extends Component{
                         showDropdown: true
                     })
                     console.log(this.state.foods)
+                    }
+                    else{
+                        this.setState({
+                            alertndb: true
+                        }) 
+                    }
                 })
         
     }
 
     addtoFirebase(){
-        let e = document.getElementById("select").value;
-        console.log(e)
-        let obj = {ndb: this.state.foods[e-1].ndb, amount: this.state.amount};
-        let userID = firebase.auth().currentUser.uid
-        let newPostKey =firebase.database().ref("/users/"+userID).child('foods').push().key
-        let updates = {};
-        updates['/foods/'+newPostKey] = obj;
-        this.setState({
-            name: "",
-            ndb: obj,
-            amount: ""
-        })
-        return firebase.database().ref("/users/"+userID).update(updates)
+        if(this.state.amount!=""&&!isNaN(this.state.amount)){
+            let e = document.getElementById("select").value;
+            console.log(e)
+            let obj = {ndb: this.state.foods[e-1].ndb, amount: this.state.amount};
+            let userID = firebase.auth().currentUser.uid
+            let newPostKey =firebase.database().ref("/users/"+userID).child('foods').push().key
+            let updates = {};
+            updates['/foods/'+newPostKey] = obj;
+            this.setState({
+                name: "",
+                ndb: obj,
+                amount: ""
+            })
+            return firebase.database().ref("/users/"+userID).update(updates)
+        }
+        else{
+            this.setState({
+                alertamt: true
+            })
+        }
     }
 
     updateField(field, value){
@@ -124,9 +140,9 @@ export default class App2 extends Component{
 
     emptyDropdown=()=>{
         return(
-                <select id = "s">
-                    <option value="1">No items</option>
-                </select>
+            <select id = "s">
+                <option value="1">No items</option>
+            </select>
         )
     }
 
@@ -143,6 +159,20 @@ export default class App2 extends Component{
         })
       }
 
+    alert = () =>{
+        if(this.state.alertndb){
+            alert("No results found")
+            this.setState({
+                alertndb: false
+            })
+        }
+        if(this.state.alertamt){
+            alert("Please enter in the number of servings.")
+            this.setState({
+                alertamt: false
+            })
+        }
+    }
     render(){
         let newFood = {
             n: this.state.name,
@@ -179,13 +209,14 @@ export default class App2 extends Component{
                             Enter{" "}
                         </Button>
                     </ButtonToolbar>
+                    {this.state.alertndb&&this.alert()}
                     </div>
                 <div className="foodLabel">
                     {this.state.showDropdown&&this.renderDropdown()}
                     {!this.state.showDropdown&&this.emptyDropdown()}
                     <div class = "tooltip2">
                     <ButtonToolbar id = "btntoolbar">
-                        <Button id="but5" type = "submit" value = "Submit" onClick = {()=>this.getAmount()}> 
+                        <Button disabled = {!this.state.showDropdown} id="but5" type = "submit" value = "Submit" onClick = {()=>this.getAmount()}> 
                             {" "}
                             Add{" "}
                         </Button>
@@ -211,6 +242,7 @@ export default class App2 extends Component{
                                 Enter{" "}
                             </Button>
                         </ButtonToolbar>
+                        {this.state.alertamt&&this.alert()}
                     </div>
                     <ButtonToolbar id = "btntoolbar2">
                         <Link to={'/Summary'}>

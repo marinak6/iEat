@@ -232,7 +232,8 @@ export default class App3 extends Component{
             carb: 0,
             sugar: 0,
             fiber: 0
-        })
+        });
+        console.log(this.state)
     }
 
     render() { 
