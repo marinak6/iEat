@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component} from 'react';
 import './App.css';
 import { ButtonToolbar } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import App2 from './App2.js';
 import {BrowserRouter, Route, Link, Redirect} from 'react-router-dom';
 import headerpic from './header.png';
-import {auth,provider} from './configs'
-import firebase from './configs'
+import {auth,provider} from './configs'; 
+import firebase from './configs'; 
+
 
 class App extends Component {
   constructor(props){
@@ -24,17 +25,30 @@ class App extends Component {
       day: "",
       noon: "",
       yyyy: "",
-      user: null
+      user: false,
+      click: false
     };
   }
+
+  
   componentWillMount(){
     this.setTime();
-    this.logout();
+    //this.logout();
   }
   componentDidMount(){
     window.setInterval(function(){
       this.setTime();
     }.bind(this),1000);
+    firebase.auth().onAuthStateChanged((user) => {
+      console.log(user)
+      if (user!==null) {
+        this.setState({
+          user: true
+        })
+      } else {
+        user: false
+      }
+    });
   }
 
   setTime(){
@@ -122,6 +136,7 @@ class App extends Component {
       // The signed-in user info.
       var user = result.user;
       // ...
+      return <Redirect to = '/Info'/>
     }).catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
@@ -132,15 +147,7 @@ class App extends Component {
       var credential = error.credential;
       // ...
     });
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({
-          user: true
-        })
-      } else {
-        user: null
-      }
-    });
+    console.log(this.state)
   }
 
   logout = () => {
@@ -154,26 +161,32 @@ class App extends Component {
     })
   }
 
+  buttonclick=()=>{
+    this.setState({
+      click: true
+    })
+    if(!this.state.user){
+      this.login()
+    }
+  }
   render() {
-    if(this.state.user!== null){
+    if(this.state.user&&this.state.click){
+      console.log("hey")
       return <Redirect to = '/Info'/>
     }
     return (
       <div className='Background'>
           <div className="Header">
             <header>
-            <img src={headerpic} className = "header" alt = "headerpic" />
+            <img id = "pic"src={headerpic} class = "header" alt = "headerpic" />
             </header></div>
             
           <div className="Button">
             <ButtonToolbar>
               <Button 
                id="but" bsStyle="success" bsSize="large"
-               onClick = {this.login} 
-               
-              >
+               onClick = {this.buttonclick}>
                GET<br />STARTED
-
               </Button>
             </ButtonToolbar>
             </div>
